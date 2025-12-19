@@ -3,7 +3,7 @@ import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 
 // Set a clean, elegant font
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 export const metadata = {
   title: 'Meriqo Floral Portfolio | Elegant Flowers',

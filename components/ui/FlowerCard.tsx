@@ -1,42 +1,45 @@
 import Image from 'next/image';
 import Link from 'next/link';
-// Import the Flower interface for type safety
 import { Flower } from '@/data/flowers';
 
-// Define the props the component accepts
 interface FlowerCardProps {
   flower: Flower;
 }
 
 export default function FlowerCard({ flower }: FlowerCardProps) {
   return (
-    // Link to the detailed page (e.g., /flowers/1)
-    <Link href={`/flowers/${flower.id}`} className="block group">
-      <div className="bg-white shadow-xl hover:shadow-2xl transition-all duration-300 rounded-lg overflow-hidden border border-stone-100">
+    /* FIX 1: Path changed to /gallery/ and uses flower.slug instead of id */
+    <Link href={`/gallery/${flower.slug}`} className="block group">
+      <div className="bg-white shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden border border-stone-100">
         
         {/* Flower Image */}
-        <div className="w-full aspect-square relative overflow-hidden">
+        <div className="w-full aspect-[4/5] relative overflow-hidden bg-stone-50">
           <Image
             src={flower.image}
-            alt={flower.alt}
+            alt={flower.alt} /* Matches your new blueprint alt */
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            priority={false} // Only Hero image needs priority
           />
         </div>
 
         {/* Text Details */}
-        <div className="p-5 text-center">
-          <h3 className="text-xl font-serif text-stone-800 tracking-wide mb-1">
-            {flower.title}
+        <div className="p-6 text-center">
+          <span className="text-[10px] tracking-[0.2em] uppercase text-rose-400 font-semibold mb-2 block">
+            {flower.category}
+          </span>
+          
+          <h3 className="text-xl font-serif text-stone-800 tracking-tight mb-1">
+            {flower.title} {/* Matches your new blueprint title */}
           </h3>
-          <p className="text-sm text-stone-500 italic">
-            {flower.subtitle}
+          
+          <p className="text-sm text-stone-500 italic mb-4">
+            {flower.subtitle} {/* Matches your new blueprint subtitle */}
           </p>
-          <button className="mt-4 text-xs tracking-wider uppercase border border-rose-400 text-rose-400 py-1 px-3 rounded-full hover:bg-rose-50 transition-colors duration-200">
-            View Details
-          </button>
+          
+          <div className="inline-block text-[10px] tracking-widest uppercase border-b border-stone-200 pb-1 text-stone-400 group-hover:text-rose-400 group-hover:border-rose-400 transition-all duration-300">
+            Discover Bloom
+          </div>
         </div>
       </div>
     </Link>
