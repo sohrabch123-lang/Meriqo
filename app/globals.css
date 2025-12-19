@@ -18,3 +18,8 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+body {
+  /* Using a warm, soft off-white instead of pure #FFFFFF */
+  background-color: #F9F8F6; 
+  color: #44403C; /* A slightly softer black for better readability */
+}

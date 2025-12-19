@@ -13,7 +13,7 @@ export default function AboutPage() {
         className="relative w-full max-w-2xl aspect-[4/5] overflow-hidden rounded-sm shadow-sm"
       >
         <Image 
-          src="/images/kathrin-portrait.jpg" // Change to her photo
+          src="/images/kathrin-portrait.png" // Change to her photo
           alt="Charlotte"
           fill
           className="object-cover grayscale-[20%] hover:scale-105 transition-transform duration-1000"
@@ -28,7 +28,7 @@ export default function AboutPage() {
         className="max-w-xl text-center mt-12"
       >
         <h1 className="text-4xl md:text-6xl font-serif text-stone-800 mb-6">
-         My Love... The Heart Behind the Blooms
+         My Love , The Heart Behind the Blooms
         </h1>
         
         <p className="text-lg md:text-xl text-stone-600 font-serif italic leading-relaxed mb-8">
