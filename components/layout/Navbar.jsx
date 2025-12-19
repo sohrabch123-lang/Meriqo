@@ -25,8 +25,8 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-rose-400 transition-colors">
-                  Contact
+                <Link href="/about" className="hover:text-rose-400 transition-colors">
+                  about
                 </Link>
               </li>
             </ul>
