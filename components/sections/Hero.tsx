@@ -7,10 +7,9 @@ export default function Hero() {
   const heroImage = '/images/HeroBG.png';
 
   return (
-    /* FIXED: Using the exact dark color (#0A0B09) for the section background */
     <section className="relative h-[600px] md:h-[90vh] overflow-hidden bg-heritage dark:bg-[#0A0B09] transition-colors duration-1000 ease-in-out z-0">
       
-      {/* BACKGROUND IMAGE */}
+      {/* 1. BACKGROUND IMAGE */}
       <div className="absolute inset-0 scale-105 z-[-10]">
         <Image
           src={heroImage}
@@ -21,21 +20,20 @@ export default function Hero() {
         />
       </div>
 
-      {/* OVERLAYS */}
-      <div className="absolute inset-0 z-[1] bg-black/5 dark:bg-black/60 pointer-events-none transition-colors duration-1000 ease-in-out" />
+      {/* 2. OVERLAYS - FIXED: Separated into two layers to force perfect 1000ms sync */}
+      {/* Light Mode subtle tint */}
+      <div className="absolute inset-0 z-[1] bg-black/5 opacity-100 dark:opacity-0 pointer-events-none transition-opacity duration-1000 ease-in-out" />
+      {/* Dark Mode heavy tint */}
+      <div className="absolute inset-0 z-[1] bg-black/60 opacity-0 dark:opacity-100 pointer-events-none transition-opacity duration-1000 ease-in-out" />
       
-      {/* FIXED GRADIENTS: 
-          To remove the "hard line," the gradient MUST end on the exact same color 
-          as the section below it (#0A0B09).
-      */}
-      
-      {/* 1. Light Mode Gradient */}
+      {/* 3. GRADIENTS - Synced to the section below (#0A0B09) */}
+      {/* Light Mode Gradient */}
       <div className="absolute inset-0 z-[2] bg-gradient-to-b from-transparent via-heritage/20 to-heritage opacity-100 dark:opacity-0 pointer-events-none transition-opacity duration-1000 ease-in-out" />
       
-      {/* 2. Dark Mode Gradient - FIXED to match your screenshot background */}
+      {/* Dark Mode Gradient */}
       <div className="absolute inset-0 z-[2] bg-gradient-to-b from-transparent via-[#0A0B09]/40 to-[#0A0B09] opacity-0 dark:opacity-100 pointer-events-none transition-opacity duration-1000 ease-in-out" />
 
-      {/* Hero Content */}
+      {/* 4. HERO CONTENT */}
       <div className="absolute inset-0 flex items-center justify-center px-4 z-[20]">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
