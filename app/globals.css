@@ -20,19 +20,21 @@
     --brand-rose: 212 163 115;
     --brand-charcoal: 245 245 245;
     --brand-accent: 212 163 115;
-    --bg-main: 15 17 13;
+    /* FIXED: This color (10, 11, 9) matches the #0A0B09 in your Hero exactly */
+    --bg-main: 10 11 9; 
     --bg-card: 26 28 24;
     --accent-soft: 40 40 40;
     --text-muted: 160 160 160;
     --btn-bg: 212 163 115;
-    --btn-text: 15 17 13;
+    --btn-text: 10 11 9;
     --btn-hover: 180 140 100;
   }
 
   body {
     background-color: rgb(var(--bg-main));
     color: rgb(var(--brand-charcoal));
-    @apply transition-colors duration-500 ease-in-out;
+    /* FIXED: Changed from duration-500 to 1000 to match your components */
+    @apply transition-colors duration-1000 ease-in-out;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -41,7 +43,8 @@
 .glass-effect {
   background: rgba(var(--bg-main), 0.85);
   backdrop-filter: blur(16px);
-  @apply transition-all duration-500;
+  /* FIXED: Changed from duration-500 to 1000 */
+  @apply transition-all duration-1000 ease-in-out;
 }
 
 ::selection {
