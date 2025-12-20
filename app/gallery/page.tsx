@@ -1,34 +1,24 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { flowerData } from '@/data/flowers';
 
-/**
- * TEACHING MOMENT: Variants
- * We use 'as const' to tell TypeScript that the strings like "easeOut" 
- * are exact values and won't change to something invalid like "banana".
- */
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.15, // Creates the one-by-one waterfall effect
-    },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 }, // Start 30px lower and invisible
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
-    y: 0, // Float up to the original position
-    transition: {
-      duration: 0.8,
-      ease: "easeOut" as const, // Fixed the TS error here
-    },
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" },
   },
 };
 
@@ -42,26 +32,38 @@ export default function GalleryPage() {
     >
       {flowerData.map((flower) => (
         <motion.div key={flower.id} variants={itemVariants}>
-          <Link href={`/gallery/${flower.slug}`} className="group">
-            {/* Image Container */}
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone-100 shadow-sm transition-shadow duration-500 group-hover:shadow-xl">
+          <Link href={`/gallery/${flower.slug}`} className="group block">
+            
+            {/* IMAGE CONTAINER 
+                - Updated: group-hover:-translate-y-3 (More lift)
+                - Updated: Custom Deep Bloom Shadow on hover
+            */}
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-card shadow-sm transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-transform 
+              group-hover:-translate-y-3 
+              group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)]"
+            >
               <Image
                 src={flower.image}
-                alt={flower.name}
+                alt={flower.title}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
               />
-              {/* Subtle dark overlay on hover to make it feel premium */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500" />
+              
+              {/* Optional: Subtle vignette on hover for more focus */}
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-700" />
             </div>
 
-            {/* Text Section */}
-            <div className="mt-6 text-center">
-              <h3 className="text-xl font-serif text-stone-800 group-hover:text-rose-400 transition-colors duration-300">
-                {flower.name}
-              </h3>
-              <p className="text-stone-400 font-medium mt-1 tracking-widest text-xs uppercase">
-                {flower.category || 'Collection'} — ${flower.price}
+            {/* TEXT SECTION */}
+            <div className="mt-8 text-center">
+              <div className="relative inline-block pb-1">
+                <h3 className="text-2xl font-serif text-charcoal transition-colors duration-500 group-hover:text-accent-hover">
+                  {flower.title}
+                </h3>
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] bg-accent-hover w-0 group-hover:w-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]" />
+              </div>
+
+              <p className="text-muted font-medium mt-3 tracking-boutique text-[11px] uppercase">
+                {flower.category || 'Collection'} — ${flower.price}.00
               </p>
             </div>
           </Link>

@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Flower } from '@/data/flowers';
@@ -8,37 +9,46 @@ interface FlowerCardProps {
 
 export default function FlowerCard({ flower }: FlowerCardProps) {
   return (
-    /* FIX 1: Path changed to /gallery/ and uses flower.slug instead of id */
     <Link href={`/gallery/${flower.slug}`} className="block group">
-      <div className="bg-white shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl overflow-hidden border border-stone-100">
+      {/* 1. Card Container */}
+      <div className="bg-card shadow-sm hover:shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] rounded-2xl overflow-hidden border border-stone-200/20 will-change-transform hover:-translate-y-2">
         
-        {/* Flower Image */}
-        <div className="w-full aspect-[4/5] relative overflow-hidden bg-stone-50">
+        {/* Flower Image - Slow-burn zoom effect */}
+        <div className="w-full aspect-[4/5] relative overflow-hidden bg-heritage/30">
           <Image
             src={flower.image}
-            alt={flower.alt} /* Matches your new blueprint alt */
+            alt={flower.alt}
             fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </div>
 
         {/* Text Details */}
-        <div className="p-6 text-center">
-          <span className="text-[10px] tracking-[0.2em] uppercase text-rose-400 font-semibold mb-2 block">
+        <div className="p-8 text-center">
+          <span className="text-[10px] tracking-[0.3em] uppercase text-brand-rose font-bold mb-3 block">
             {flower.category}
           </span>
           
-          <h3 className="text-xl font-serif text-stone-800 tracking-tight mb-1">
-            {flower.title} {/* Matches your new blueprint title */}
+          <h3 className="text-2xl font-serif text-charcoal tracking-tight mb-1">
+            {flower.title}
           </h3>
           
-          <p className="text-sm text-stone-500 italic mb-4">
-            {flower.subtitle} {/* Matches your new blueprint subtitle */}
+          <p className="text-sm text-muted italic mb-6 font-serif">
+            {flower.subtitle}
           </p>
           
-          <div className="inline-block text-[10px] tracking-widest uppercase border-b border-stone-200 pb-1 text-stone-400 group-hover:text-rose-400 group-hover:border-rose-400 transition-all duration-300">
+          {/* 2. THE EYECANDY BUTTON:
+              - Swapped static border for our animated span.
+              - Connected to accent-hover.
+          */}
+          <div className="relative inline-block pb-1 text-[11px] tracking-boutique uppercase text-charcoal/60 group-hover:text-accent-hover transition-colors duration-500">
             Discover Bloom
+            
+            {/* The Elegant Line - Grows from center */}
+            <span 
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] bg-accent-hover w-0 group-hover:w-full transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
+            />
           </div>
         </div>
       </div>
