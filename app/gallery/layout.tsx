@@ -1,4 +1,4 @@
-'use client'; // Corrected from 'use React'
+'use client'; 
 import Sidebar from '@/components/layout/Gallerysidebar';
 
 interface GalleryLayoutProps {
@@ -7,50 +7,56 @@ interface GalleryLayoutProps {
 
 export default function GalleryLayout({ children }: GalleryLayoutProps) {
   return (
-    // Standardized transition for smooth theme switching
-    <div className="flex flex-col min-h-screen bg-heritage transition-colors duration-500">
+    /* Use 'bg-heritage' which maps to var(--bg-main) */
+    <div className="flex flex-col min-h-screen bg-heritage transition-colors duration-1000 ease-in-out">
       
-      {/* 1. MINI-HERO SECTION 
-          FIX: Removed bg-heritage/50. It was stacking on the main BG 
-          and causing the "hazy" layering under the Navbar.
-      */}
-      <section className="relative h-[35vh] w-full flex flex-col items-center justify-center">
-        <div className="relative text-center z-10 px-4">
-          <span className="text-accent-hover font-bold tracking-[0.4em] uppercase text-[10px] mb-4 block transition-colors duration-500">
-            Saldana Florals
-          </span>
-          <h1 className="text-4xl md:text-6xl font-serif text-charcoal mb-8 transition-colors duration-500">
-            Our Full Collection
-          </h1>
-
-          {/* 2. THE BOUTIQUE DIVIDER 
-              FIX: Changed stone-200/60 to sage/20 for a cleaner look in Dark Mode.
-          */}
-          <div className="relative flex items-center justify-center w-64 mx-auto">
-            <div className="w-full h-[1px] bg-sage/20 transition-colors duration-500"></div>
-            <div className="absolute w-1.5 h-1.5 rotate-45 bg-accent-hover shadow-[0_0_8px_rgba(var(--accent-rgb),0.4)] transition-all duration-500"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. THE MAIN WRAPPER */}
-      <div className="flex flex-col lg:flex-row flex-grow w-full max-w-[1600px] mx-auto">
+      <div className="flex flex-col lg:flex-row flex-grow w-full max-w-[1600px] mx-auto pt-24">
         
-        {/* SIDEBAR SLOT 
-            FIX: lg:top-20 matches your Navbar height to prevent overlap.
-        */}
-        <aside className="lg:w-72 border-r border-sage/10 lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] transition-colors duration-500">
+        {/* SIDEBAR SLOT */}
+        <aside className="lg:w-80 w-full lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] px-8 transition-colors duration-500">
           <Sidebar />
         </aside>
 
-        {/* CONTENT SLOT */}
-        <main className="flex-grow p-6 lg:p-12">
-          {children}
+        {/* CONTENT COLUMN */}
+        <main className="flex-grow p-6 lg:p-12 lg:border-l border-sage/10 transition-colors duration-1000">
+          
+          <section className="mb-20 text-left">
+            {/* Maps to var(--brand-accent) */}
+            <span className="text-accent-hover font-bold tracking-[0.5em] uppercase text-[10px] mb-4 block transition-colors duration-500">
+              Saldana Florals
+            </span>
+
+            {/* FIX: By using 'text-charcoal' here, it will automatically 
+               point to var(--brand-charcoal). Since that variable changes 
+               from 26,24,23 to 245,245,245 in your CSS, it WILL flip.
+            */}
+            <h1 className="text-5xl md:text-7xl font-serif text-charcoal tracking-tight mb-10 transition-colors duration-1000">
+              Our Full Collection
+            </h1>
+
+            {/* THE STYLISH SIGNATURE DIVIDER */}
+            <div className="relative flex items-center w-full max-w-md group">
+              {/* Line: Uses accent-hover with opacity */}
+              <div className="h-[1.5px] w-full bg-gradient-to-r from-accent-hover/80 via-accent-hover/30 to-transparent transition-all duration-700"></div>
+              
+              {/* Anchor: Pulsing Diamond */}
+              <div className="absolute left-0 flex items-center justify-center">
+                <div className="absolute w-4 h-4 bg-accent-hover/30 rounded-full blur-md opacity-0 dark:opacity-100 animate-pulse"></div>
+                <div className="relative w-2.5 h-2.5 rotate-45 bg-accent-hover border border-white/20 shadow-[0_0_10px_rgba(var(--brand-accent),0.3)] transition-all duration-500"></div>
+              </div>
+
+              <div className="ml-6 w-1 h-1 rounded-full bg-accent-hover/40"></div>
+            </div>
+          </section>
+
+          {/* PAGE CONTENT */}
+          <div className="w-full">
+            {children}
+          </div>
         </main>
       </div>
 
-      {/* FOOTER */}
-      <footer className="py-12 border-t border-sage/10 text-center text-[10px] text-muted uppercase tracking-[0.2em] transition-colors duration-500">
+      <footer className="py-12 border-t border-sage/10 text-center text-[10px] text-muted uppercase tracking-[0.2em] transition-colors duration-1000">
         © 2025 Saldana Boutique
       </footer>
     </div>
