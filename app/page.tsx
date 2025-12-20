@@ -31,8 +31,12 @@ const itemVariants: Variants = {
 };
 
 export default function HomePage() {
-  // We take the first 2 flowers to leave room for the "See All" card
-  const featuredFlowers: Flower[] = flowerData.slice(0, 2);
+  // 1. Define the featured products by selecting specific IDs
+// We pick ID 1 (Rose Bouquet) and ID 20 (Your first Macramé)
+const featuredFlowers: Flower[] = [
+  flowerData.find(f => f.id === 2),
+  flowerData.find(f => f.id === 38)
+].filter((f): f is Flower => !!f); // This filter ensures the page won't crash if an ID is missing
 
   return (
     <div className="overflow-hidden bg-heritage">
