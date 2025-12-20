@@ -45,7 +45,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
-          {/* LOGO - Scaled slightly for mobile */}
+          {/* LOGO */}
           <Link 
             href="/" 
             className="text-2xl md:text-3xl font-serif font-medium tracking-[0.2em] text-charcoal dark:text-pearl transition-colors duration-1000 ease-in-out z-[60]"
@@ -78,13 +78,12 @@ export default function Navbar() {
               </ul>
             </nav>
 
-            {/* THE BOUTIQUE THEME TOGGLE (Refined Geometry) */}
+            {/* THE BOUTIQUE THEME TOGGLE (Fixed Radiant Math) */}
             <button 
               onClick={toggleTheme}
               className="relative h-11 w-11 flex items-center justify-center rounded-full border border-sage/20 bg-transparent hover:border-accent-hover/40 text-charcoal dark:text-pearl transition-all duration-1000 group outline-none z-[60]"
               aria-label="Toggle Dark Mode"
             >
-              {/* Subtle hover glow */}
               <div className="absolute inset-0 rounded-full bg-accent-hover/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
               <AnimatePresence mode="wait">
@@ -95,11 +94,23 @@ export default function Navbar() {
                     animate={{ scale: 1, rotate: 0, opacity: 1 }}
                     exit={{ scale: 0.5, rotate: 90, opacity: 0 }}
                     transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                    width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"
+                    width="22" height="22" viewBox="0 0 24 24" fill="none" 
+                    stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"
                   >
-                    <circle cx="12" cy="12" r="3" fill="currentColor" fillOpacity="0.15" />
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M12 5V3M12 21v-2M5 12H3m18 0h-2M7.05 7.05L5.64 5.64m12.72 12.72-1.41-1.41M7.05 16.95l-1.41 1.41m12.72-12.72-1.41-1.41" />
+                    {/* The Core */}
+                    <circle cx="12" cy="12" r="3.5" fill="currentColor" fillOpacity="0.15" />
+                    <circle cx="12" cy="12" r="3.5" />
+                    
+                    {/* The Radiant Rays: Precise coordinates for perfect symmetry */}
+                    <line x1="12" y1="5" x2="12" y2="2" />         {/* Top */}
+                    <line x1="12" y1="22" x2="12" y2="19" />      {/* Bottom */}
+                    <line x1="5" y1="12" x2="2" y2="12" />         {/* Left */}
+                    <line x1="22" y1="12" x2="19" y2="12" />      {/* Right */}
+                    
+                    <line x1="7.05" y1="7.05" x2="4.93" y2="4.93" />    {/* Top-Left */}
+                    <line x1="19.07" y1="19.07" x2="16.95" y2="16.95" /> {/* Bottom-Right */}
+                    <line x1="7.05" y1="16.95" x2="4.93" y2="19.07" />  {/* Bottom-Left */}
+                    <line x1="19.07" y1="4.93" x2="16.95" y2="7.05" />    {/* Top-Right */}
                   </motion.svg>
                 ) : (
                   <motion.svg
@@ -108,7 +119,8 @@ export default function Navbar() {
                     animate={{ scale: 1, rotate: 0, opacity: 1 }}
                     exit={{ scale: 0.5, rotate: -45, opacity: 0 }}
                     transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                    width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"
+                    width="20" height="20" viewBox="0 0 24 24" fill="none" 
+                    stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"
                   >
                     <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" fill="currentColor" fillOpacity="0.1" />
                     <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
