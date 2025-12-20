@@ -23,10 +23,11 @@ export default function GalleryPage() {
   });
 
   return (
-    <div className="flex flex-col min-h-screen bg-heritage transition-colors duration-500">
+    /* MATCHED: duration-1000 and ease-in-out for the main background */
+    <div className="flex flex-col min-h-screen bg-heritage transition-colors duration-1000 ease-in-out">
 
-      {/* FILTER BAR */}
-      <nav className="sticky top-[80px] z-30 w-full py-6 bg-heritage/60 backdrop-blur-xl border-b border-sage/10 transition-colors duration-500">
+      {/* FILTER BAR - Matched duration and easing */}
+      <nav className="sticky top-[80px] z-30 w-full py-6 bg-heritage/60 backdrop-blur-xl border-b border-sage/10 transition-colors duration-1000 ease-in-out">
         <div className="flex justify-center gap-8 md:gap-16 max-w-7xl mx-auto px-4">
           {FILTERS.map(({ label, value }) => (
             <button
@@ -60,18 +61,18 @@ export default function GalleryPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.5 }}
           >
             {filteredData.map((item) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
               >
                 <Link href={`/gallery/${item.slug}`} className="group block">
-                  {/* IMAGE CONTAINER */}
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-card shadow-sm border border-sage/5 transition-all duration-500">
+                  {/* IMAGE CONTAINER - Matched duration-1000 for theme transitions */}
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-card shadow-sm border border-sage/5 transition-all duration-1000 ease-in-out">
                     <Image
                       src={item.image}
                       alt={item.alt}
@@ -79,20 +80,20 @@ export default function GalleryPage() {
                       sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover transition-transform duration-[1.5s] group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-black/0 dark:bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
+                    {/* Dark mode overlay dimming matched to 1000ms */}
+                    <div className="absolute inset-0 bg-black/0 dark:bg-black/10 group-hover:bg-black/0 transition-colors duration-1000 ease-in-out" />
                   </div>
 
                   <div className="mt-6 text-center flex flex-col items-center">
                     {/* TITLE WITH ANIMATED UNDERLINE */}
                     <div className="relative inline-block pb-1">
-                      <h3 className="text-xl font-serif text-charcoal group-hover:text-accent-hover transition-colors duration-500">
+                      <h3 className="text-xl font-serif text-charcoal group-hover:text-accent-hover transition-colors duration-1000 ease-in-out">
                         {item.title}
                       </h3>
-                      {/* THE BLOOMING LINE: Expands from center on group hover */}
                       <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-accent-hover transition-all duration-500 ease-out group-hover:w-full" />
                     </div>
 
-                    <p className="mt-2 text-[10px] tracking-widest uppercase text-muted transition-colors duration-500">
+                    <p className="mt-2 text-[10px] tracking-widest uppercase text-muted transition-colors duration-1000 ease-in-out">
                       {item.type} — ${item.price}
                     </p>
                   </div>

@@ -16,16 +16,15 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* FIX 1: Added 'transition-colors duration-500 ease-in-out' to the body.
-        This ensures the entire canvas changes color at the exact same speed as the Navbar.
-        FIX 2: Added 'selection:bg-accent-hover/30' for a boutique touch when highlighting text.
+      {/* FIX 1: Standardized transition to duration-1000 ease-in-out.
+        FIX 2: Ensured 'bg-heritage' and 'text-charcoal' use the global transition rhythm.
       */}
       <body 
         className={`
           ${inter.className} 
           bg-heritage text-charcoal 
           antialiased min-h-screen flex flex-col 
-          transition-colors duration-500 ease-in-out
+          transition-colors duration-1000 ease-in-out
           selection:bg-accent-hover/30
         `}
       >
@@ -33,15 +32,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* Navbar sits on top of the stack */}
         <Navbar />
 
-        {/* FIX 3: Removed any potential overflow issues. 
-          The flex-grow main container ensures the heritage background 
-          is a solid foundation for all children components.
+        {/* FIX 3: flex-grow ensures the heritage background covers the screen.
+          The relative positioning here acts as the anchor for all your page transitions.
         */}
         <main className="flex-grow relative">
           {children}
         </main>
 
-        {/* Global Footer can be added here */}
+        {/* Global Footer or Portals can be added here */}
       </body>
     </html>
   );

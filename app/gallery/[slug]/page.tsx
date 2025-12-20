@@ -18,8 +18,8 @@ export default async function FlowerDetailPage({
   const nextFlower = flowerData[currentIndex + 1] || flowerData[0];
 
   return (
-    // Added transition-colors to the main page container
-    <main className="min-h-screen bg-heritage transition-colors duration-500 ease-in-out">
+    /* MATCHED: duration-1000 and ease-in-out for the detail page wrapper */
+    <main className="min-h-screen bg-heritage transition-colors duration-1000 ease-in-out">
       <FlowerDetailClient 
         flower={flower} 
         prevSlug={prevFlower.slug} 

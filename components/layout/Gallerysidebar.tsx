@@ -29,19 +29,17 @@ export default function Sidebar() {
   ];
 
   return (
-    /* CHANGE: Made the sidebar 'sticky' and 'top-24'. 
-       This keeps it pinned on the left as you scroll, filling the 'empty' space.
-    */
     <motion.aside
       initial={{ opacity: 0, x: -24 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.45, ease: 'easeOut' }}
-      className="sticky top-24 self-start hidden lg:flex flex-col h-fit min-w-[280px] py-12 px-8 bg-transparent transition-colors duration-500"
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      /* MATCHED: 1000ms duration */
+      className="sticky top-24 self-start hidden lg:flex flex-col h-fit min-w-[320px] py-12 px-8 bg-transparent transition-colors duration-1000 ease-in-out"
     >
 
-      {/* NAVIGATION - Now acts as the start of a future Dashboard */}
+      {/* NAVIGATION */}
       <nav className="flex flex-col space-y-7">
-        <span className="text-[10px] tracking-[0.3em] uppercase text-muted mb-2 font-bold opacity-50">
+        <span className="text-[10px] tracking-[0.3em] uppercase text-muted mb-2 font-bold opacity-50 transition-colors duration-1000">
           Categories
         </span>
         {categories.map((cat, index) => {
@@ -55,7 +53,7 @@ export default function Sidebar() {
             >
               <Link
                 href={cat.href}
-                className={`relative pb-2 w-fit text-[13px] tracking-widest uppercase font-medium group transition-colors duration-500
+                className={`relative pb-2 w-fit text-[13px] tracking-widest uppercase font-medium group transition-colors duration-1000 ease-in-out
                   ${active ? 'text-accent-hover' : 'text-charcoal hover:text-accent-hover'}
                 `}
               >
@@ -63,7 +61,7 @@ export default function Sidebar() {
                 {active && (
                   <motion.span
                     layoutId="sidebar-underline"
-                    className="absolute bottom-0 left-0 h-[1px] w-full bg-accent-hover transition-colors duration-500"
+                    className="absolute bottom-0 left-0 h-[1px] w-full bg-accent-hover transition-colors duration-1000"
                   />
                 )}
                 {!active && (
@@ -75,16 +73,17 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* QUOTE SECTION - Fills the middle vertical space */}
-      <div className="mt-20 pt-8 border-t border-stone-200/30 max-w-[220px] transition-colors duration-500">
+      {/* QUOTE SECTION - Increased font size and container width */}
+      <div className="mt-24 pt-10 border-t border-sage/20 max-w-[260px] transition-colors duration-1000 ease-in-out">
         <AnimatePresence mode="wait">
           <motion.p
             key={currentQuote}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="text-base leading-relaxed text-muted italic font-serif transition-colors duration-500"
+            transition={{ duration: 1, ease: 'easeOut' }}
+            /* UPDATED: Increased from text-base to text-xl */
+            className="text-xl leading-relaxed text-muted italic font-serif transition-colors duration-1000 ease-in-out"
           >
             “{quotes[currentQuote]}”
           </motion.p>
@@ -94,16 +93,17 @@ export default function Sidebar() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mt-4 text-[10px] tracking-widest uppercase text-brand-rose font-bold transition-colors duration-500 opacity-80"
+          /* UPDATED: Slightly larger attribution name for balance (text-[11px]) */
+          className="mt-6 text-[11px] tracking-[0.3em] uppercase text-accent-hover font-bold transition-colors duration-1000 opacity-80"
         >
           charlotte (1940–2005)
         </motion.div>
       </div>
 
-      {/* FUTURE DASHBOARD PLACEHOLDER */}
+      {/* FOOTER PLACEHOLDER */}
       <div className="mt-auto pt-20">
-         <div className="w-10 h-[1px] bg-accent-hover/30 mb-4" />
-         <p className="text-[9px] uppercase tracking-[0.2em] text-muted leading-loose">
+         <div className="w-10 h-[1px] bg-accent-hover/30 mb-4 transition-colors duration-1000" />
+         <p className="text-[9px] uppercase tracking-[0.2em] text-muted leading-loose transition-colors duration-1000">
            Saldana <br/> Member Portal <br/> Coming Soon
          </p>
       </div>
