@@ -4,56 +4,42 @@
 
 @layer base {
   :root {
-    /* --- 1. CORE BRAND COLORS (LIGHT) --- */
-    --brand-rose: 155 61 61;        /* Updated to Deep Red to match new style */
-    --brand-charcoal: 26 24 23;     /* #1A1817 */
-    --brand-accent: 155 61 61;      /* Synchronized with Brand Rose */
-
-    /* --- 2. THE SEASONAL THEME (Dusty Oat) --- */
-    --bg-main: 237 232 226;         /* #EDE8E2 */
-    --bg-card: 255 255 255; 
-    --accent-soft: 222 218 214; 
-    --text-muted: 107 102 97; 
-
-    /* --- 3. BUTTON SYSTEM --- */
-    --btn-bg: var(--brand-accent);
+    --brand-rose: 155 61 61;
+    --brand-charcoal: 26 24 23;
+    --brand-accent: 155 61 61;
+    --bg-main: 237 232 226;
+    --bg-card: 255 255 255;
+    --accent-soft: 222 218 214;
+    --text-muted: 107 102 97;
+    --btn-bg: 155 61 61;
     --btn-text: 255 255 255;
     --btn-hover: 134 44 44;
   }
 
   .dark {
-    /* --- 1. CORE BRAND COLORS (DARK) --- */
-    --brand-rose: 212 163 115;      /* Antique Gold - No more pink! */
-    --brand-charcoal: 245 245 245;  /* Pearl White text */
-    --brand-accent: 212 163 115;    /* Antique Gold */
-
-    /* --- 2. THE MIDNIGHT THEME (Midnight Garden) --- */
-    --bg-main: 15 17 13;            /* Deep Forest Background */
-    --bg-card: 26 28 24;            /* Midnight Surface */
-    --accent-soft: 40 40 40; 
-    --text-muted: 160 160 160; 
-
-    /* --- 3. BUTTON SYSTEM (DARK) --- */
-    --btn-bg: 212 163 115;          /* Gold buttons */
-    --btn-text: 15 17 13;           /* Dark text on gold */
+    --brand-rose: 212 163 115;
+    --brand-charcoal: 245 245 245;
+    --brand-accent: 212 163 115;
+    --bg-main: 15 17 13;
+    --bg-card: 26 28 24;
+    --accent-soft: 40 40 40;
+    --text-muted: 160 160 160;
+    --btn-bg: 212 163 115;
+    --btn-text: 15 17 13;
     --btn-hover: 180 140 100;
+  }
+
+  body {
+    background-color: rgb(var(--bg-main));
+    color: rgb(var(--brand-charcoal));
+    @apply transition-colors duration-500 ease-in-out;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* 5. GLOBAL APPLICATION */
-body {
-  /* This ensures the background color is the Deep Forest in dark mode */
-  background-color: rgb(var(--bg-main));
-  color: rgb(var(--brand-charcoal));
-  @apply transition-colors duration-500 ease-in-out;
-  
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* 6. UTILITY CLASSES */
 .glass-effect {
-  background: rgba(var(--bg-main), 0.85); 
+  background: rgba(var(--bg-main), 0.85);
   backdrop-filter: blur(16px);
   @apply transition-all duration-500;
 }

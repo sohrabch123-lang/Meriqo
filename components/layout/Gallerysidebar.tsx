@@ -29,19 +29,23 @@ export default function Sidebar() {
   ];
 
   return (
+    /* CHANGE: Made the sidebar 'sticky' and 'top-24'. 
+       This keeps it pinned on the left as you scroll, filling the 'empty' space.
+    */
     <motion.aside
       initial={{ opacity: 0, x: -24 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.45, ease: 'easeOut' }}
-      /* Added transition-colors for the background */
-      className="flex flex-col h-full justify-start pt-24 pb-12 px-8 bg-heritage transition-colors duration-500"
+      className="sticky top-24 self-start hidden lg:flex flex-col h-fit min-w-[280px] py-12 px-8 bg-transparent transition-colors duration-500"
     >
 
-      {/* NAVIGATION */}
+      {/* NAVIGATION - Now acts as the start of a future Dashboard */}
       <nav className="flex flex-col space-y-7">
+        <span className="text-[10px] tracking-[0.3em] uppercase text-muted mb-2 font-bold opacity-50">
+          Categories
+        </span>
         {categories.map((cat, index) => {
           const active = pathname === cat.href;
-
           return (
             <motion.div
               key={cat.name}
@@ -51,14 +55,11 @@ export default function Sidebar() {
             >
               <Link
                 href={cat.href}
-                /* Added transition-colors for the text links */
-                className={`relative pb-2 w-fit text-[13px] tracking-boutique uppercase font-medium group transition-colors duration-500
+                className={`relative pb-2 w-fit text-[13px] tracking-widest uppercase font-medium group transition-colors duration-500
                   ${active ? 'text-accent-hover' : 'text-charcoal hover:text-accent-hover'}
                 `}
               >
                 {cat.name}
-
-                {/* Active / hover underline */}
                 {active && (
                   <motion.span
                     layoutId="sidebar-underline"
@@ -74,8 +75,8 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* QUOTE */}
-      <div className="mt-16 pt-8 border-t border-stone-200/30 max-w-[240px] transition-colors duration-500">
+      {/* QUOTE SECTION - Fills the middle vertical space */}
+      <div className="mt-20 pt-8 border-t border-stone-200/30 max-w-[220px] transition-colors duration-500">
         <AnimatePresence mode="wait">
           <motion.p
             key={currentQuote}
@@ -83,8 +84,7 @@ export default function Sidebar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
-            /* Added transition-colors for the quote text */
-            className="text-lg md:text-xl leading-relaxed text-muted italic font-serif transition-colors duration-500"
+            className="text-base leading-relaxed text-muted italic font-serif transition-colors duration-500"
           >
             “{quotes[currentQuote]}”
           </motion.p>
@@ -94,11 +94,18 @@ export default function Sidebar() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          /* Added transition-colors for the signature name */
-          className="mt-4 text-[11px] tracking-boutique uppercase text-brand-rose font-bold transition-colors duration-500"
+          className="mt-4 text-[10px] tracking-widest uppercase text-brand-rose font-bold transition-colors duration-500 opacity-80"
         >
           charlotte (1940–2005)
         </motion.div>
+      </div>
+
+      {/* FUTURE DASHBOARD PLACEHOLDER */}
+      <div className="mt-auto pt-20">
+         <div className="w-10 h-[1px] bg-accent-hover/30 mb-4" />
+         <p className="text-[9px] uppercase tracking-[0.2em] text-muted leading-loose">
+           Saldana <br/> Member Portal <br/> Coming Soon
+         </p>
       </div>
 
     </motion.aside>
