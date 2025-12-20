@@ -9,22 +9,22 @@ export default async function FlowerDetailPage({
 }) {
   const { slug } = await params;
   
-  // 1. Find current flower index
   const currentIndex = flowerData.findIndex((f) => f.slug === slug);
   const flower = flowerData[currentIndex];
 
   if (!flower) notFound();
 
-  // 2. Calculate Next and Previous flowers
   const prevFlower = flowerData[currentIndex - 1] || flowerData[flowerData.length - 1];
   const nextFlower = flowerData[currentIndex + 1] || flowerData[0];
 
-  // 3. Pass data to the Client Component for the "Beautiful" parts
   return (
-    <FlowerDetailClient 
-      flower={flower} 
-      prevSlug={prevFlower.slug} 
-      nextSlug={nextFlower.slug} 
-    />
+    // Added transition-colors to the main page container
+    <main className="min-h-screen bg-heritage transition-colors duration-500 ease-in-out">
+      <FlowerDetailClient 
+        flower={flower} 
+        prevSlug={prevFlower.slug} 
+        nextSlug={nextFlower.slug} 
+      />
+    </main>
   );
 }

@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // 1. Enable the dark mode toggle via the 'dark' class
+  darkMode: 'class',
+  
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,28 +12,25 @@ module.exports = {
     extend: {
       colors: {
         /* Primary Theme Colors */
-        'heritage': 'var(--bg-main)',       // The "Dusty Oat" background
-        'card': 'var(--bg-card)',           // The white surface for cards
+        'heritage': 'rgb(var(--bg-main))',
+        'card': 'rgb(var(--bg-card))',
         
         /* Brand Identity */
-        'brand-rose': 'var(--brand-rose)',   // Signature floral pink
-        'charcoal': 'var(--brand-charcoal)', // High-end text color
-        'muted': 'var(--text-muted)',       // Secondary/Subtle text
+        'brand-rose': 'rgb(var(--brand-rose))',
+        'charcoal': 'rgb(var(--brand-charcoal))',
+        'muted': 'rgb(var(--text-muted))',
         
         /* Interactive Accents & Depth */
-        'accent-hover': 'var(--brand-accent)', // Deep Velvet Rose
+        'accent-hover': 'rgb(var(--brand-accent))',
         
-        /* 1. NEW BUTTON SYSTEM MAPPING 
-           Connecting your Tailwind classes directly to your CSS variables.
-        */
-        'btn-base': 'var(--btn-bg)',         // Use: bg-btn-base
-        'btn-content': 'var(--btn-text)',    // Use: text-btn-content
-        'btn-accent': 'var(--btn-hover)',    // Use: hover:bg-btn-accent
+        /* Button System Mapping */
+        'btn-base': 'rgb(var(--btn-bg))',
+        'btn-content': 'rgb(var(--btn-text))',
+        'btn-accent': 'rgb(var(--btn-hover))',
         
         /* Accents & Borders */
-        'sage': 'var(--accent-soft)',        
+        'sage': 'rgb(var(--accent-soft))',
       },
-      // Luxury timing and spacing for 2025
       transitionDuration: {
         '2000': '2000ms',
       },

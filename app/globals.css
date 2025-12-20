@@ -2,47 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* --- 1. CORE BRAND COLORS --- */
-  --brand-rose: #E17070;        /* Your main logo pink */
-  --brand-charcoal: #1A1817;    /* Deep Onyx for sharp text */
-  
-  /* 2. INTERACTIVE ACCENT (Deep Velvet Rose)
-     Replaced the green with this richer pink for "Life" without the "Dead" feeling.
-  */
-  --brand-accent: #9B3D3D; 
+@layer base {
+  :root {
+    /* --- 1. CORE BRAND COLORS (LIGHT) --- */
+    --brand-rose: 155 61 61;        /* Updated to Deep Red to match new style */
+    --brand-charcoal: 26 24 23;     /* #1A1817 */
+    --brand-accent: 155 61 61;      /* Synchronized with Brand Rose */
 
-  /* --- 3. THE SEASONAL THEME (Current: Dusty Oat) --- */
-  --bg-main: #EDE8E2;           /* Warm, organic background */
-  --bg-card: #ffffff;           /* Pure white for cards to "pop" */
-  --accent-soft: #DEDAD6;       /* Harmonized border color */
-  --text-muted: #6B6661;        /* Muted text for dates/subtitles */
+    /* --- 2. THE SEASONAL THEME (Dusty Oat) --- */
+    --bg-main: 237 232 226;         /* #EDE8E2 */
+    --bg-card: 255 255 255; 
+    --accent-soft: 222 218 214; 
+    --text-muted: 107 102 97; 
 
-  /* --- 4. BUTTON SYSTEM --- */
-  /* Changing these here will update EVERY button on your site */
-  --btn-bg: var(--brand-accent);
-  --btn-text: #ffffff;
-  --btn-hover: #862c2c;         /* Slightly darker for the hover effect */
+    /* --- 3. BUTTON SYSTEM --- */
+    --btn-bg: var(--brand-accent);
+    --btn-text: 255 255 255;
+    --btn-hover: 134 44 44;
+  }
+
+  .dark {
+    /* --- 1. CORE BRAND COLORS (DARK) --- */
+    --brand-rose: 212 163 115;      /* Antique Gold - No more pink! */
+    --brand-charcoal: 245 245 245;  /* Pearl White text */
+    --brand-accent: 212 163 115;    /* Antique Gold */
+
+    /* --- 2. THE MIDNIGHT THEME (Midnight Garden) --- */
+    --bg-main: 15 17 13;            /* Deep Forest Background */
+    --bg-card: 26 28 24;            /* Midnight Surface */
+    --accent-soft: 40 40 40; 
+    --text-muted: 160 160 160; 
+
+    /* --- 3. BUTTON SYSTEM (DARK) --- */
+    --btn-bg: 212 163 115;          /* Gold buttons */
+    --btn-text: 15 17 13;           /* Dark text on gold */
+    --btn-hover: 180 140 100;
+  }
 }
 
 /* 5. GLOBAL APPLICATION */
 body {
-  background-color: var(--bg-main);
-  color: var(--brand-charcoal);
+  /* This ensures the background color is the Deep Forest in dark mode */
+  background-color: rgb(var(--bg-main));
+  color: rgb(var(--brand-charcoal));
+  @apply transition-colors duration-500 ease-in-out;
   
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "kern" 1, "liga" 1;
 }
 
 /* 6. UTILITY CLASSES */
 .glass-effect {
-  /* FIXED: Numbers updated to (237, 232, 226) to match the #EDE8E2 background */
-  background: rgba(237, 232, 226, 0.7); 
-  backdrop-filter: blur(12px);
+  background: rgba(var(--bg-main), 0.85); 
+  backdrop-filter: blur(16px);
+  @apply transition-all duration-500;
 }
 
 ::selection {
-  background-color: var(--brand-rose);
+  background-color: rgb(var(--brand-rose));
   color: white;
 }

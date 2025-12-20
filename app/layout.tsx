@@ -15,25 +15,33 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      {/* RULE 1: Use Semantic Classes
-        - 'bg-heritage' matches your CSS variable for the Stone background.
-        - 'text-charcoal' ensures high-end readability for your serif fonts.
+    <html lang="en" suppressHydrationWarning>
+      {/* FIX 1: Added 'transition-colors duration-500 ease-in-out' to the body.
+        This ensures the entire canvas changes color at the exact same speed as the Navbar.
+        FIX 2: Added 'selection:bg-accent-hover/30' for a boutique touch when highlighting text.
       */}
-      <body className={`${inter.className} bg-heritage text-charcoal antialiased min-h-screen flex flex-col`}>
+      <body 
+        className={`
+          ${inter.className} 
+          bg-heritage text-charcoal 
+          antialiased min-h-screen flex flex-col 
+          transition-colors duration-500 ease-in-out
+          selection:bg-accent-hover/30
+        `}
+      >
         
-        {/* Navbar is global, appearing on every page */}
+        {/* Navbar sits on top of the stack */}
         <Navbar />
 
-        {/* RULE 2: Layout Structure
-          - 'flex-grow' ensures that even if a page has very little content, 
-             the background stays consistent all the way to the bottom.
+        {/* FIX 3: Removed any potential overflow issues. 
+          The flex-grow main container ensures the heritage background 
+          is a solid foundation for all children components.
         */}
-        <main className="flex-grow">
+        <main className="flex-grow relative">
           {children}
         </main>
 
-        {/* This is a great place for a global Footer in the future */}
+        {/* Global Footer can be added here */}
       </body>
     </html>
   );

@@ -6,7 +6,6 @@ import FlowerCard from '@/components/ui/FlowerCard';
 import { flowerData, Flower } from '@/data/flowers';
 import Link from 'next/link';
 
-// 1. Type-safe Container Variants
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -17,7 +16,6 @@ const containerVariants: Variants = {
   },
 };
 
-// 2. Type-safe Item Variants (Fixed the Ease error)
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -31,16 +29,14 @@ const itemVariants: Variants = {
 };
 
 export default function HomePage() {
-  // 1. Define the featured products by selecting specific IDs
-// We pick ID 1 (Rose Bouquet) and ID 20 (Your first Macramé)
-const featuredFlowers: Flower[] = [
-  flowerData.find(f => f.id === 2),
-  flowerData.find(f => f.id === 38)
-].filter((f): f is Flower => !!f); // This filter ensures the page won't crash if an ID is missing
+  const featuredFlowers: Flower[] = [
+    flowerData.find(f => f.id === 2),
+    flowerData.find(f => f.id === 38)
+  ].filter((f): f is Flower => !!f);
 
   return (
-    <div className="overflow-hidden bg-heritage">
-      {/* 1. The Main Hero Section */}
+    <div className="overflow-hidden bg-heritage transition-colors duration-500 ease-in-out">
+      {/* 1. Hero Section: Ensure your Hero component also uses text-charcoal and text-accent-hover */}
       <Hero />
 
       {/* 2. Featured Flowers Section */}
@@ -53,34 +49,35 @@ const featuredFlowers: Flower[] = [
           viewport={{ once: true, margin: "-100px" }}
           className="flex flex-col items-center"
         >
-          {/* Section Heading - Balanced and Prominent */}
+          {/* Section Heading */}
           <motion.h2 
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-serif text-center text-charcoal mb-16 relative pb-6"
+            className="text-4xl md:text-5xl font-serif text-center text-charcoal mb-16 relative pb-6 transition-colors duration-500"
           >
             Featured Blooms
-            {/* Elegant 1px accent line */}
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-[1px] bg-accent-hover/40" />
+            {/* Theme-aware accent line */}
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-[1px] bg-accent-hover/40 transition-colors duration-500" />
           </motion.h2>
 
           {/* Flower Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full">
             {featuredFlowers.map((flower) => (
               <motion.div key={flower.id} variants={itemVariants}>
+                {/* Note: Ensure FlowerCard internal text uses text-charcoal/muted for auto-switching */}
                 <FlowerCard flower={flower} />
               </motion.div>
             ))}
             
-            {/* The "See More" Card - Now with Eyecandy Hover */}
+            {/* The "See More" Card */}
             <motion.div 
               variants={itemVariants}
-              className="flex items-center justify-center bg-card border border-stone-200/20 rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] p-10 group will-change-transform hover:-translate-y-2 min-h-[400px]"
+              className="flex items-center justify-center bg-card border border-sage/20 rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] p-10 group will-change-transform hover:-translate-y-2 min-h-[400px]"
             >
               <div className="text-center">
-                <h3 className="text-2xl md:text-3xl font-serif text-charcoal tracking-wide mb-4">
+                <h3 className="text-2xl md:text-3xl font-serif text-charcoal tracking-wide mb-4 transition-colors duration-500">
                   See All Arrangements
                 </h3>
-                <p className="text-muted italic text-base mb-10 font-serif max-w-[200px] mx-auto">
+                <p className="text-muted italic text-base mb-10 font-serif max-w-[200px] mx-auto transition-colors duration-500">
                   Discover our full collection of bespoke floral designs.
                 </p>
                 
@@ -98,16 +95,16 @@ const featuredFlowers: Flower[] = [
         </motion.div>
       </section>
 
-      {/* 3. Craftsmanship Section - Smooth Visual Anchor */}
+      {/* 3. Craftsmanship Section */}
       <motion.section 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
         viewport={{ once: true }}
-        className="py-24 text-center bg-heritage border-t border-stone-200/10"
+        className="py-24 text-center bg-heritage border-t border-sage/10 transition-colors duration-500"
       >
-        <h3 className="text-3xl font-serif text-charcoal tracking-wide">Our Craftsmanship</h3>
-        <p className="mt-4 text-muted italic font-serif text-lg max-w-2xl mx-auto px-4">
+        <h3 className="text-3xl font-serif text-charcoal tracking-wide transition-colors duration-500">Our Craftsmanship</h3>
+        <p className="mt-4 text-muted italic font-serif text-lg max-w-2xl mx-auto px-4 transition-colors duration-500">
           Every bouquet is hand-arranged with the utmost care and attention to the poetry of nature.
         </p>
       </motion.section>
