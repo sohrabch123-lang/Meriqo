@@ -10,49 +10,48 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }} 
-      /* MATCHED: 1000ms ease-in-out */
-      className="max-w-7xl mx-auto px-4 py-10 transition-colors duration-1000 ease-in-out"
+      className="max-w-7xl mx-auto px-4 py-6 md:py-10 transition-colors duration-1000 ease-in-out"
     >
-      {/* 1. TOP NAVIGATION */}
-      <div className="flex justify-between items-center mb-16">
+      {/* 1. TOP NAVIGATION - Responsive Capsule Design */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 md:mb-16">
+        
+        {/* Collection Button - FIXED: Now in a matching prominent pill style */}
         <Link 
           href="/gallery" 
-          /* MATCHED: 1000ms */
-          className="relative pb-1 group text-sm tracking-boutique uppercase text-charcoal/60 hover:text-accent-hover transition-all duration-1000 ease-in-out"
+          className="group flex items-center bg-sage/10 dark:bg-white/5 backdrop-blur-sm rounded-full px-5 py-2.5 border border-sage/20 transition-all duration-1000 hover:border-brand-rose/40"
         >
-          &larr; Collection
-          {/* UPDATED: Slowed underline to match the pace */}
-          <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-accent-hover transition-all duration-1000 ease-in-out group-hover:w-full" />
+          <span className="text-[11px] md:text-xs tracking-boutique uppercase text-charcoal font-medium group-hover:text-brand-rose transition-colors duration-1000">
+            &larr; Collection
+          </span>
         </Link>
         
-        <div className="flex gap-10 items-center">
-          <Link href={`/gallery/${prevSlug}`} className="group relative pb-1 block">
-            <span className="text-xs tracking-boutique uppercase text-charcoal/40 group-hover:text-accent-hover transition-colors duration-1000 ease-in-out">
+        {/* Prev/Next Capsule Controls */}
+        <div className="flex items-center bg-sage/10 dark:bg-white/5 backdrop-blur-sm rounded-full px-2 py-1.5 border border-sage/20 transition-all duration-1000">
+          
+          <Link href={`/gallery/${prevSlug}`} className="group px-6 py-2 transition-all">
+            <span className="text-[10px] md:text-xs tracking-boutique uppercase text-charcoal/80 group-hover:text-brand-rose transition-colors duration-1000">
               Prev
             </span>
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-accent-hover transition-all duration-1000 ease-in-out group-hover:w-full" />
           </Link>
 
-          {/* Theme-aware divider - MATCHED: 1000ms */}
-          <div className="h-4 w-px bg-sage/20 transition-colors duration-1000 ease-in-out"></div>
+          {/* Vertical Separator */}
+          <div className="h-4 w-[1.5px] bg-charcoal/10 dark:bg-white/20 transition-colors duration-1000"></div>
 
-          <Link href={`/gallery/${nextSlug}`} className="group relative pb-1 block">
-            <span className="text-xs tracking-boutique uppercase text-charcoal/40 group-hover:text-accent-hover transition-colors duration-1000 ease-in-out">
+          <Link href={`/gallery/${nextSlug}`} className="group px-6 py-2 transition-all">
+            <span className="text-[10px] md:text-xs tracking-boutique uppercase text-charcoal/80 group-hover:text-brand-rose transition-colors duration-1000">
               Next
             </span>
-            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-accent-hover transition-all duration-1000 ease-in-out group-hover:w-full" />
           </Link>
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-16 items-start">
+      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
         {/* LEFT: IMAGE SECTION */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          /* MATCHED: 1000ms for border and shadow shift */
-          className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-card border border-sage/5 transition-all duration-1000 ease-in-out"
+          className="w-full lg:w-1/2 relative aspect-square lg:aspect-[4/5] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-card border border-sage/5 transition-all duration-1000 ease-in-out"
         >
           <Image 
             src={flower.image} 
@@ -61,7 +60,6 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
             className="object-cover" 
             priority
           />
-          {/* Subtle overlay - MATCHED: 1000ms */}
           <div className="absolute inset-0 bg-black/0 dark:bg-black/10 transition-colors duration-1000 ease-in-out" />
         </motion.div>
 
@@ -72,28 +70,29 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
           transition={{ duration: 0.8, delay: 0.2 }}
           className="w-full lg:w-1/2 lg:sticky lg:top-32"
         >
-          <span className="text-accent-hover font-bold tracking-[0.3em] uppercase text-[11px] mb-4 block transition-colors duration-1000 ease-in-out">
+          <span className="text-brand-rose font-bold tracking-[0.3em] uppercase text-[10px] md:text-[11px] mb-4 block transition-colors duration-1000">
             {flower.category}
           </span>
 
-          <h1 className="text-5xl md:text-6xl font-serif text-charcoal leading-tight mb-2 transition-colors duration-1000 ease-in-out">
+          <h1 className="text-4xl md:text-6xl font-serif text-charcoal leading-tight mb-4 transition-colors duration-1000">
             {flower.title}
           </h1>
 
-          <p className="text-muted italic text-xl mb-8 font-serif transition-colors duration-1000 ease-in-out">
+          <p className="text-muted italic text-lg md:text-xl mb-8 font-serif transition-colors duration-1000">
             {flower.subtitle}
           </p>
           
-          <p className="text-3xl text-charcoal font-light mb-10 transition-colors duration-1000 ease-in-out">${flower.price}.00</p>
+          <p className="text-2xl md:text-3xl text-charcoal font-light mb-8 md:mb-10 transition-colors duration-1000">
+            ${flower.price}.00
+          </p>
           
-          <div className="h-px bg-sage/20 w-full mb-10 transition-colors duration-1000 ease-in-out"></div>
+          <div className="h-px bg-sage/20 w-full mb-8 md:mb-10 transition-colors duration-1000"></div>
           
-          <p className="text-charcoal/80 text-lg leading-relaxed mb-12 font-serif italic transition-colors duration-1000 ease-in-out">
+          <p className="text-charcoal/80 text-base md:text-lg leading-relaxed mb-10 md:mb-12 font-serif italic transition-colors duration-1000">
             {flower.description}
           </p>
 
-          {/* BUTTON - UPDATED: transition-all to 1000ms for background AND shadow color swap */}
-          <button className="w-full py-6 bg-btn-base text-btn-content rounded-full hover:bg-btn-accent transition-all duration-1000 ease-in-out tracking-boutique uppercase text-[12px] font-bold shadow-xl active:scale-[0.98] will-change-transform">
+          <button className="w-full py-5 md:py-6 bg-btn-base text-btn-content rounded-full hover:bg-btn-accent transition-all duration-1000 ease-in-out tracking-boutique uppercase text-[11px] md:text-[12px] font-bold shadow-xl active:scale-[0.98] will-change-transform">
             Inquire for Arrangement
           </button>
         </motion.div>
