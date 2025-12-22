@@ -1,75 +1,110 @@
-'use client';
+'use client'; 
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 export default function Hero() {
   const heroImage = '/images/HeroBG.png';
 
+  // Explicit Type Definitions for Framer Motion to avoid errors
+  const container: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2, // Delicate timing between text lines
+        delayChildren: 0.4,   // Allows the global Page Template to fade in first
+      }
+    }
+  };
+
+  const item: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 1.2, 
+        ease: [0.22, 1, 0.36, 1] // Custom Expo Out curve for luxury feel
+      } 
+    }
+  };
+
   return (
-    <section className="relative h-[600px] md:h-[90vh] overflow-hidden bg-heritage dark:bg-[#0A0B09] transition-colors duration-1000 ease-in-out z-0">
+    <section className="relative h-[600px] md:h-[90vh] overflow-hidden bg-heritage z-0">
       
-      {/* 1. BACKGROUND IMAGE */}
-      <div className="absolute inset-0 scale-105 z-[-10]">
+      {/* 1. BACKGROUND IMAGE - Subtle scale-down effect */}
+      <motion.div 
+        initial={{ scale: 1.15, opacity: 0 }}
+        animate={{ scale: 1.05, opacity: 1 }}
+        transition={{ duration: 2.5, ease: "easeOut" }}
+        className="absolute inset-0 z-[-10]"
+      >
         <Image
           src={heroImage}
           alt="Saldana Florals Hero"
           fill
-          className="object-cover opacity-95 dark:opacity-40 transition-opacity duration-1000 ease-in-out"
+          className="object-cover opacity-95 dark:opacity-40"
           priority
         />
-      </div>
+      </motion.div>
 
-      {/* 2. OVERLAYS - FIXED: Separated into two layers to force perfect 1000ms sync */}
-      {/* Light Mode subtle tint */}
-      <div className="absolute inset-0 z-[1] bg-black/5 opacity-100 dark:opacity-0 pointer-events-none transition-opacity duration-1000 ease-in-out" />
-      {/* Dark Mode heavy tint */}
-      <div className="absolute inset-0 z-[1] bg-black/60 opacity-0 dark:opacity-100 pointer-events-none transition-opacity duration-1000 ease-in-out" />
+      {/* 2. OVERLAYS & GRADIENTS - Transitions handled by globals.css */}
+      <div className="absolute inset-0 z-[1] bg-black/5 dark:bg-black/60 pointer-events-none" />
       
-      {/* 3. GRADIENTS - Synced to the section below (#0A0B09) */}
-      {/* Light Mode Gradient */}
-      <div className="absolute inset-0 z-[2] bg-gradient-to-b from-transparent via-heritage/20 to-heritage opacity-100 dark:opacity-0 pointer-events-none transition-opacity duration-1000 ease-in-out" />
-      
-      {/* Dark Mode Gradient */}
-      <div className="absolute inset-0 z-[2] bg-gradient-to-b from-transparent via-[#0A0B09]/40 to-[#0A0B09] opacity-0 dark:opacity-100 pointer-events-none transition-opacity duration-1000 ease-in-out" />
+      <div className="absolute inset-0 z-[2] pointer-events-none 
+        bg-gradient-to-b from-transparent via-heritage/20 to-heritage 
+        dark:via-black/40 dark:to-black" 
+      />
 
-      {/* 4. HERO CONTENT */}
+      {/* 3. HERO CONTENT */}
       <div className="absolute inset-0 flex items-center justify-center px-4 z-[20]">
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center p-10 md:p-20 bg-card/30 dark:bg-card/20 backdrop-blur-md rounded-[2.5rem] shadow-[0_30px_100px_-20px_rgba(0,0,0,0.15)] dark:shadow-[0_60px_120px_-20px_rgba(0,0,0,0.8)] max-w-3xl border border-white/40 dark:border-white/10 relative overflow-hidden transition-all duration-1000 ease-in-out"
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="text-center p-10 md:p-20 bg-card/30 dark:bg-card/20 backdrop-blur-md rounded-[2.5rem] 
+            shadow-xl dark:shadow-2xl max-w-3xl border border-white/40 dark:border-white/10 relative overflow-hidden"
         >
-          <span className="text-[11px] tracking-[0.5em] uppercase text-accent-hover font-bold mb-8 block transition-colors duration-1000 ease-in-out">
+          <motion.span 
+            variants={item} 
+            className="text-[11px] tracking-logo uppercase text-accent-hover font-bold mb-8 block"
+          >
             Boutique Floral Design
-          </span>
+          </motion.span>
 
-          <h1 className="text-5xl md:text-8xl font-serif text-charcoal tracking-tight mb-8 leading-[1.1] transition-colors duration-1000 ease-in-out drop-shadow-sm">
+          <motion.h1 
+            variants={item} 
+            className="text-5xl md:text-8xl font-serif text-charcoal tracking-tight mb-8 leading-[1.1] drop-shadow-sm"
+          >
             Saldana Florals
-          </h1>
+          </motion.h1>
 
-          <p className="text-lg md:text-2xl text-muted italic mb-12 font-serif leading-relaxed transition-colors duration-1000 ease-in-out">
+          <motion.p 
+            variants={item} 
+            className="text-lg md:text-2xl text-muted italic mb-12 font-serif leading-relaxed"
+          >
             Elegance in Bloom. Calm, Crafted, and Beautiful Arrangements.
-          </p>
+          </motion.p>
           
-          <div className="flex flex-col items-center gap-10 relative z-[100]">
+          <motion.div variants={item} className="flex flex-col items-center gap-10 relative z-[100]">
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
               href="#featured-flowers"
-              className="relative py-6 px-16 bg-btn-base text-btn-content text-[11px] font-bold tracking-[0.3em] uppercase rounded-full shadow-xl transition-all duration-1000 ease-in-out hover:bg-btn-accent"
+              className="relative py-6 px-16 bg-btn-base text-btn-content text-[11px] font-bold tracking-boutique uppercase rounded-full shadow-xl hover:bg-btn-accent transition-colors"
             >
               Explore the Collection
             </motion.a>
 
-            <Link href="/gallery" className="group relative block py-2 px-8 cursor-pointer">
-              <span className="relative z-10 text-[15px] tracking-[0.4em] uppercase text-charcoal/60 transition-colors duration-1000 ease-in-out group-hover:text-accent-hover font-medium">
+            <Link href="/gallery" className="group relative block py-2 px-8">
+              <span className="relative z-10 text-[15px] tracking-boutique uppercase text-charcoal/60 group-hover:text-accent-hover font-medium transition-colors">
                 View Full Gallery
               </span>
-              <span className="absolute bottom-0 left-0 h-[2px] bg-accent-hover w-0 group-hover:w-full transition-all duration-1000 ease-in-out" />
+              <span className="absolute bottom-0 left-0 h-[1px] bg-accent-hover w-0 group-hover:w-full transition-all duration-500 ease-boutique" />
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

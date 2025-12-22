@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    /* Pure RGB values for Tailwind 'rgb(var(...))' compatibility */
     --brand-rose: 155 61 61;
     --brand-charcoal: 26 24 23;
     --brand-accent: 155 61 61;
@@ -32,24 +33,54 @@
   body {
     background-color: rgb(var(--bg-main));
     color: rgb(var(--brand-charcoal));
-    /* Force 1000ms transition on everything inside the body */
-    transition: background-color 1000ms ease-in-out, color 1000ms ease-in-out, border-color 1000ms ease-in-out;
+    /* Optimize font rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Hide scrollbar during route transitions if needed */
+    overflow-x: hidden;
   }
 
-  /* MAGIC FIX: This ensures all elements transition their colors slowly */
+  /* GLOBAL TRANSITION SYSTEM
+     Instead of just *, we target specific properties to keep the GPU fast.
+  */
   *, ::before, ::after {
-    transition-property: background-color, border-color, color, fill, stroke;
+    border-color: rgba(var(--brand-charcoal), 0.1);
+    transition-property: background-color, border-color, color, fill, stroke, opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 1000ms;
   }
 }
 
-.glass-effect {
-  background: rgba(var(--bg-main), 0.85);
-  backdrop-filter: blur(16px);
-  @apply transition-all duration-1000 ease-in-out;
+@layer components {
+  /* High-end Glassmorphism */
+  .glass-effect {
+    background: rgba(var(--bg-card), 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--brand-charcoal), 0.05);
+  }
+
+  /* Boutique Button Base */
+  .btn-boutique {
+    @apply px-8 py-4 rounded-full font-sans uppercase tracking-[0.2em] text-[11px] font-bold 
+           transition-all duration-500 active:scale-95;
+    background-color: rgb(var(--btn-bg));
+    color: rgb(var(--btn-text));
+  }
+}
+
+/* Custom Scrollbar for a luxury feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--bg-main));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--accent-soft));
+  border-radius: 10px;
 }
 
 ::selection {

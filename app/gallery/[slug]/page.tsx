@@ -2,6 +2,7 @@ import { flowerData } from '@/data/flowers';
 import { notFound } from 'next/navigation';
 import FlowerDetailClient from './FlowerDetailClient';
 
+// This is a Server Component, keep it lean!
 export default async function FlowerDetailPage({ 
   params 
 }: { 
@@ -14,17 +15,19 @@ export default async function FlowerDetailPage({
 
   if (!flower) notFound();
 
+  // Infinite Loop Logic: If at the start, go to end. If at end, go to start.
   const prevFlower = flowerData[currentIndex - 1] || flowerData[flowerData.length - 1];
   const nextFlower = flowerData[currentIndex + 1] || flowerData[0];
 
   return (
-    /* MATCHED: duration-1000 and ease-in-out for the detail page wrapper */
-    <main className="min-h-screen bg-heritage transition-colors duration-1000 ease-in-out">
-      <FlowerDetailClient 
-        flower={flower} 
-        prevSlug={prevFlower.slug} 
-        nextSlug={nextFlower.slug} 
-      />
-    </main>
+    /* Removed the extra <main> and background classes. 
+       The Layout and Template already provide the background and padding.
+       This prevents "Double Scrolling" or "Double Background" bugs.
+    */
+    <FlowerDetailClient 
+      flower={flower} 
+      prevSlug={prevFlower.slug} 
+      nextSlug={nextFlower.slug} 
+    />
   );
 }
