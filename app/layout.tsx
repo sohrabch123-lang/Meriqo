@@ -1,6 +1,7 @@
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
+import { Providers } from './providers'; // This is the file you just made
 
 const inter = Inter({ 
   subsets: ['latin'], 
@@ -15,7 +16,6 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  // Updated from 'Floral' to 'Photography'
   title: 'Saldana Photography | Fine Art Gallery',
   description: 'A curated portfolio showcasing visual stories through light and texture.',
 };
@@ -26,18 +26,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body 
         className={`
           ${inter.variable} ${playfair.variable} font-sans
-          bg-heritage text-brand-charcoal 
-          antialiased min-h-screen flex flex-col 
-          /* Updated selection from rose to accent-hover (now Ochre) */
+          bg-[rgb(var(--bg-main))] text-[rgb(var(--brand-charcoal))]
+          antialiased min-h-screen flex flex-col theme-sync
           selection:bg-brand-accent/20 selection:text-brand-charcoal
         `}
       >
-        {/* Navbar remains the shell */}
-        <Navbar />
-        
-        <main className="flex-grow">
-          {children}
-        </main>
+        {/* Wrap everything inside Providers so the theme works everywhere */}
+        <Providers>
+          <Navbar />
+          <main>
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );

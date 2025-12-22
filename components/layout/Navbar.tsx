@@ -4,27 +4,17 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from 'next-themes';
 
 export default function Navbar() {
   const pathname = usePathname() || '';
-  const [dark, setDark] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
+  // Prevents hydration mismatch and "flickering" on first load
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      setDark(true);
-      document.documentElement.classList.add('dark');
-    }
+    setMounted(true);
   }, []);
-
-  const toggleTheme = () => {
-    const newDark = !dark;
-    setDark(newDark);
-    document.documentElement.classList.toggle('dark', newDark);
-    localStorage.setItem('theme', newDark ? 'dark' : 'light');
-  };
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -33,6 +23,11 @@ export default function Navbar() {
   ];
 
   const isActive = (path: string) => (path === '/' ? pathname === '/' : pathname.startsWith(path));
+
+  // If not mounted, we render a placeholder to keep layout stable
+  if (!mounted) return <header className="h-24" />;
+
+  const isDark = theme === 'dark';
 
   return (
     <header 
@@ -44,7 +39,7 @@ export default function Navbar() {
           
           {/* LOGO */}
           <Link href="/" className="z-[60] group outline-none">
-            <span className="font-serif italic tracking-[0.2em] text-2xl text-charcoal transition-colors duration-700 group-hover:text-charcoal dark:group-hover:text-white">
+            <span className="font-serif italic tracking-[0.2em] text-2xl text-brand-charcoal transition-colors duration-700">
               Saldana
             </span>
           </Link>
@@ -59,10 +54,10 @@ export default function Navbar() {
                     <li key={link.name}>
                       <Link 
                         href={link.href} 
-                        className={`group relative py-1 text-[10px] uppercase transition-all duration-700 ease-in-out
+                        className={`group relative py-1 text-[10px] uppercase transition-all duration-500 ease-in-out theme-sync
                           ${active 
-                            ? 'text-charcoal dark:text-white font-bold tracking-[0.6em]' 
-                            : 'text-charcoal/40 dark:text-muted/40 hover:text-charcoal dark:hover:text-white tracking-[0.4em] hover:tracking-[0.6em]'}
+                            ? 'text-brand-charcoal font-bold tracking-[0.6em]' 
+                            : 'text-brand-charcoal/40 hover:text-brand-charcoal tracking-[0.4em] hover:tracking-[0.6em]'}
                         `}
                       >
                         {link.name}
@@ -75,18 +70,19 @@ export default function Navbar() {
 
             {/* THEME TOGGLE */}
             <button 
-              onClick={toggleTheme}
-              className="relative h-10 w-10 flex items-center justify-center rounded-full border border-brand-charcoal/10 hover:border-charcoal dark:hover:border-white text-charcoal hover:text-charcoal dark:hover:text-white transition-all duration-700 z-[60]"
+              onClick={() => setTheme(isDark ? 'light' : 'dark')}
+              aria-label="Toggle Theme"
+              className="relative h-10 w-10 flex items-center justify-center rounded-full border border-brand-charcoal/10 hover:border-brand-charcoal text-brand-charcoal transition-all duration-500 z-[60] theme-sync"
             >
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={dark ? 'sun' : 'moon'}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  key={isDark ? 'sun' : 'moon'}
+                  initial={{ opacity: 0, scale: 0.8, rotate: -45 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, rotate: 45 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {dark ? (
+                  {isDark ? (
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2m-18.78 7.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
                   ) : (
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
