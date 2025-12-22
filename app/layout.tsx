@@ -15,8 +15,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: 'Saldana Floral Portfolio | Elegant Flowers',
-  description: 'A beautiful and calm portfolio showcasing luxury floral arrangements.',
+  // Updated from 'Floral' to 'Photography'
+  title: 'Saldana Photography | Fine Art Gallery',
+  description: 'A curated portfolio showcasing visual stories through light and texture.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -25,18 +26,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body 
         className={`
           ${inter.variable} ${playfair.variable} font-sans
-          bg-heritage text-charcoal 
+          bg-heritage text-brand-charcoal 
           antialiased min-h-screen flex flex-col 
-          selection:bg-accent-hover/30
+          /* Updated selection from rose to accent-hover (now Ochre) */
+          selection:bg-brand-accent/20 selection:text-brand-charcoal
         `}
       >
-        {/* Navbar is a 'Shell' component—it stays here forever */}
+        {/* Navbar remains the shell */}
         <Navbar />
         
         <main className="flex-grow">
-          {/* Everything inside {children} will be wrapped by 
-            the template.tsx we are about to create. 
-          */}
           {children}
         </main>
       </body>

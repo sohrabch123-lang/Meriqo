@@ -1,79 +1,79 @@
 'use client';
 
 import Image from 'next/image';
-import Reveal from '@/components/ui/Reveal';
+import { motion } from 'framer-motion';
 
 export default function AboutPage() {
   return (
-    /* We keep the layout container clean. 
-       The bg-heritage is already handled by the layout/template. */
-    <div className="flex flex-col items-center justify-center px-6 py-24 md:py-32">
-      
-      {/* The Portrait Section */}
-      <div className="w-full max-w-xl">
-        <Reveal duration={1.1} y={15} instant>
-          <div className="relative aspect-[4/5] overflow-hidden rounded-sm shadow-2xl border border-sage/10">
-            <Image 
-              src="/images/kathrin-portrait.png" 
-              alt="Charlotte - The Heart Behind the Blooms"
-              fill
-              priority
-              className="object-cover grayscale-[15%] hover:scale-105 transition-transform duration-[2500ms] ease-out"
-            />
-            <div className="absolute inset-0 bg-black/0 dark:bg-black/20 transition-colors duration-1000" />
-          </div>
-        </Reveal>
-      </div>
-
-      {/* The Story Section */}
-      <div className="max-w-xl text-center mt-20 md:mt-24 space-y-12">
+    <div className="min-h-screen bg-heritage selection:bg-brand-accent/20">
+      <main className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-40 pb-32">
         
-        <div>
-          <Reveal delay={0.2} duration={0.9} y={20} instant>
-            <h1 className="text-4xl md:text-6xl font-serif text-charcoal leading-tight mb-8">
-              My Love, The Heart <br/> Behind the Blooms
+        {/* 1. HERO SECTION - The Artist & The Lens */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-40">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="text-[10px] tracking-[0.5em] uppercase text-brand-accent font-bold mb-6 block">
+              The Visionary
+            </span>
+            <h1 className="text-6xl md:text-8xl font-serif text-brand-charcoal leading-[0.9] mb-10 italic">
+              Behind the <br /> Perspective.
             </h1>
-          </Reveal>
-          
-          <Reveal delay={0.3} duration={1.2} y={10} instant>
-            <p className="text-xl md:text-2xl text-muted font-serif italic leading-relaxed">
-              "Flowers are more than just decoration; they are a silent language of kindness and creation."
+            <p className="text-lg md:text-xl text-muted font-serif leading-relaxed max-w-lg mb-8">
+              Saldana is a study of permanence in a world of fleeting moments. We capture the dialogue between natural light and raw texture.
             </p>
-          </Reveal>
-        </div>
-
-        <div className="space-y-8 text-muted/90 text-sm md:text-base leading-loose tracking-widest font-sans">
-          <Reveal delay={0.4} duration={0.9} y={15} instant>
-            <p className="max-w-md mx-auto italic">
-              Charlotte spent her life believing that hands were meant for making. 
-              Every petal arranged in this gallery is a reflection of a life dedicated 
-              to beauty, silence, and the glory of God's timing.
-            </p>
-          </Reveal>
-          
-          {/* THE BOUTIQUE DIVIDER */}
-          <Reveal delay={0.5} duration={1} y={0} instant>
-            <div className="flex flex-col items-center pt-12">
-              <div className="relative flex items-center justify-center w-32 mb-10">
-                <div className="w-full h-[1px] bg-sage/30"></div>
-                <div className="absolute w-1.5 h-1.5 rotate-45 bg-accent-hover shadow-[0_0_10px_rgba(var(--brand-accent),0.4)]"></div>
-              </div>
-
-              <p className="text-accent-hover font-bold tracking-[0.4em] uppercase text-[10px] mb-4">
-                Connect With Us
-              </p>
-              
-              <a 
-                href="mailto:hello@saldanaflorals.com" 
-                className="group relative text-charcoal text-sm tracking-widest pb-1 transition-colors duration-500"
-              >
-                hello@saldanaflorals.com
-                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-accent-hover transition-all duration-500 group-hover:w-full" />
-              </a>
+            
+            {/* THE NEW ACCENT LINE - No Rose, just Ochre & Charcoal */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-[1px] bg-brand-accent" />
+              <span className="text-[10px] uppercase tracking-widest text-brand-charcoal/40">Est. 2025</span>
             </div>
-          </Reveal>
-        </div>
-      </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5 }}
+            className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-sage"
+          >
+            <Image 
+              src="/images/about-artist.png" // Replace with your portrait or studio shot
+              alt="Saldana Photographer"
+              fill
+              className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+            />
+          </motion.div>
+        </section>
+
+        {/* 2. PHILOSOPHY SECTION - Clean Grid */}
+        <section className="border-t border-brand-charcoal/5 pt-32">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div>
+              <h3 className="text-brand-accent font-bold tracking-widest uppercase text-[10px] mb-6">The Medium</h3>
+              <p className="text-brand-charcoal/80 font-serif leading-relaxed">
+                Utilizing both analog depth and digital precision to curate a visual language that feels tactile and timeless.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-brand-accent font-bold tracking-widest uppercase text-[10px] mb-6">The Intent</h3>
+              <p className="text-brand-charcoal/80 font-serif leading-relaxed">
+                Every frame is a composition of silence. We aim to strip away the noise until only the essential beauty remains.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-brand-accent font-bold tracking-widest uppercase text-[10px] mb-6">The Legacy</h3>
+              <p className="text-brand-charcoal/80 font-serif leading-relaxed">
+                Visual stories that don't just sit on a screen, but feel like they belong on the walls of a well-lived home.
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </main>
     </div>
   );
 }

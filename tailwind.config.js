@@ -1,8 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // 1. Keeps 'class' for manual toggle control
   darkMode: 'class',
-  
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -11,36 +9,50 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        /* Primary Theme Colors */
+        /* Primary Theme Surfaces - The "Gallery Wall" */
         'heritage': 'rgb(var(--bg-main) / <alpha-value>)',
         'card': 'rgb(var(--bg-card) / <alpha-value>)',
+        'sage': 'rgb(var(--accent-soft) / <alpha-value>)',
         
-        /* Brand Identity */
-        'brand-rose': 'rgb(var(--brand-rose) / <alpha-value>)',
-        'charcoal': 'rgb(var(--brand-charcoal) / <alpha-value>)',
-        'muted': 'rgb(var(--text-muted) / <alpha-value>)',
-        
-        /* Interactive Accents */
+        /* Brand Identity & Typography - The "Ochre & Ink" */
+        'brand-accent': 'rgb(var(--brand-accent) / <alpha-value>)',
         'accent-hover': 'rgb(var(--brand-accent) / <alpha-value>)',
         
-        /* Button System */
-        'btn-base': 'rgb(var(--btn-bg) / <alpha-value>)',
-        'btn-content': 'rgb(var(--btn-text) / <alpha-value>)',
-        'btn-accent': 'rgb(var(--btn-hover) / <alpha-value>)',
+        'brand-charcoal': 'rgb(var(--brand-charcoal) / <alpha-value>)',
+        'charcoal': 'rgb(var(--brand-charcoal) / <alpha-value>)',
         
-        'sage': 'rgb(var(--accent-soft) / <alpha-value>)',
+        'muted': 'rgb(var(--text-muted) / <alpha-value>)',
       },
+      
       transitionDuration: {
+        '700': '700ms',
+        '800': '800ms',
         '1000': '1000ms',
-        '2000': '2000ms',
+        '2000': '2000ms', // For cinematic slow-fade photography
       },
-      // Higher-end easing for that 'luxury' feel
+
       transitionTimingFunction: {
-        'boutique': 'cubic-bezier(0.22, 1, 0.36, 1)', 
+        'boutique': 'var(--ease-boutique)', // Your custom ease-out curve
       },
+
+      /* Photography-Specific Letter Spacing */
       letterSpacing: {
+        'tightest': '-0.05em',
         'boutique': '0.3em',
         'logo': '0.5em',
+        'editorial': '0.6em',
+        'gallery': '0.8em', // Wide tracking for "The Archive" headers
+      },
+
+      /* Added: Image Scale for "Soft Zoom" Hover Effects */
+      scale: {
+        '102': '1.02', // Subtle lift for photo thumbnails
+      },
+
+      /* Added: Professional Gallery Shadows */
+      boxShadow: {
+        'gallery': '0 30px 60px -12px rgba(0, 0, 0, 0.15)',
+        'gallery-dark': '0 30px 60px -12px rgba(0, 0, 0, 0.5)',
       }
     },
   },
