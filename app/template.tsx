@@ -12,6 +12,10 @@ export default function Template({ children }: { children: React.ReactNode }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
+      /* FIX: Added bg-transparent so it never blocks the RootLayout color.
+         Added theme-sync to ensure background transitions happen inside the motion container.
+      */
+      className="bg-transparent theme-sync"
     >
       {children}
     </motion.div>

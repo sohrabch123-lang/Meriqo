@@ -6,10 +6,15 @@ import Reveal from '@/components/ui/Reveal';
 
 export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) {
   return (
-    <div className="max-w-[1400px] mx-auto px-6 bg-heritage">
+    /* Outer wrapper is transparent to ensure the RootLayout background is the source of truth */
+    <div className="max-w-[1400px] mx-auto px-6 bg-transparent">
       
-      {/* 1. STICKY ARCHITECTURAL NAV - Sits under Navbar (adjust top-[header-height]) */}
-      <div className="sticky top-0 z-30 pt-32 pb-6 bg-heritage/80 backdrop-blur-md border-b border-brand-charcoal/5 mb-12">
+      {/* 1. THE STICKY NAV FIX:
+          - We use 'bg-heritage/80' to follow the CSS variable --bg-main.
+          - 'theme-sync' ensures it fades at the same speed (0.8s) as your globals.css.
+          - Backdrop-blur-md creates the luxury glass effect.
+      */}
+      <div className="sticky top-0 z-30 pt-32 pb-6 bg-heritage/80 backdrop-blur-md border-b border-brand-charcoal/10 mb-12 theme-sync">
         <Reveal duration={0.6} y={0} instant>
           <div className="flex justify-between items-center">
             <Link 
@@ -27,7 +32,10 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
                   Prev
                 </span>
               </Link>
-              <div className="h-6 w-[1px] bg-brand-charcoal/10"></div>
+              
+              {/* Divider line uses the variable that flips from dark to light */}
+              <div className="h-6 w-[1px] bg-brand-charcoal/10 transition-colors"></div>
+              
               <Link href={`/gallery/${nextSlug}`} className="group">
                 <span className="text-[10px] tracking-[0.3em] uppercase text-brand-charcoal/40 group-hover:text-brand-charcoal transition-colors">
                   Next
@@ -43,7 +51,7 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
         {/* LEFT: THE PHOTOGRAPH */}
         <div className="w-full lg:w-[60%]">
           <Reveal duration={1.2} y={20} instant delay={0.1}>
-            <div className="relative aspect-[4/5] overflow-hidden bg-card border border-brand-charcoal/5 group shadow-gallery rounded-sm">
+            <div className="relative aspect-[4/5] overflow-hidden bg-card border border-brand-charcoal/5 group shadow-gallery dark:shadow-gallery-dark rounded-sm theme-sync">
               <Image 
                 src={flower.image} 
                 alt={flower.alt} 
@@ -66,21 +74,20 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
             </Reveal>
 
             <Reveal delay={0.25} duration={0.9} y={15} instant>
-              <h1 className="text-5xl md:text-7xl font-serif text-brand-charcoal leading-[0.9] mb-6 italic">
+              <h1 className="text-5xl md:text-7xl font-serif text-brand-charcoal leading-[0.9] mb-6 italic theme-sync">
                 {flower.title}
               </h1>
             </Reveal>
 
             <Reveal delay={0.3} duration={0.9} y={10} instant>
-              <p className="text-muted text-lg font-serif tracking-tight leading-relaxed">
+              <p className="text-brand-charcoal/60 text-lg font-serif tracking-tight leading-relaxed theme-sync">
                 {flower.subtitle}
               </p>
             </Reveal>
           </header>
           
-          {/* TECHNICAL METADATA */}
           <Reveal delay={0.4} y={10} instant>
-            <div className="grid grid-cols-2 gap-y-6 pt-10 border-t border-brand-charcoal/10">
+            <div className="grid grid-cols-2 gap-y-6 pt-10 border-t border-brand-charcoal/10 theme-sync">
               <div>
                 <p className="text-[9px] uppercase tracking-widest text-brand-charcoal/40 mb-1">Medium</p>
                 <p className="text-xs text-brand-charcoal font-medium italic">Archival Pigment Print</p>
@@ -101,14 +108,14 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
           </Reveal>
           
           <Reveal delay={0.45} duration={1} y={10} instant>
-            <p className="text-brand-charcoal/70 text-base md:text-lg leading-relaxed font-serif italic max-w-prose">
+            <p className="text-brand-charcoal/70 text-base md:text-lg leading-relaxed font-serif italic max-w-prose theme-sync">
               &ldquo;{flower.description}&rdquo;
             </p>
           </Reveal>
 
-          {/* ACQUISITION INQUIRY */}
+          {/* ACQUISITION BUTTON */}
           <Reveal delay={0.55} duration={0.6} y={5} instant>
-            <button className="group relative w-full py-6 bg-brand-charcoal text-heritage overflow-hidden transition-all duration-700">
+            <button className="group relative w-full py-6 bg-brand-charcoal text-heritage overflow-hidden theme-sync">
               <span className="relative z-10 text-[11px] font-bold tracking-[0.5em] uppercase">
                 Acquire Work
               </span>
