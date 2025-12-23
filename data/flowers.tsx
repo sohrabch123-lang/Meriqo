@@ -40,7 +40,7 @@ export const flowerData: Flower[] = [
     id: 1,
     type: 'Florals',
     name: "The Classic Rose",
-    title: "Kathrin the shining head",
+    title: "Saldana house",
     subtitle: "A study in radiance",
     slug: "Saldana art",
     category: "Portrait",
