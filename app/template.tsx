@@ -8,11 +8,17 @@ export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-    const timer = setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    }, 0);
-    return () => clearTimeout(timer);
+    // 1. Check if we are on a detail page (e.g., /gallery/rose)
+    // If we are, we DON'T scroll here. We let FlowerDetailClient handle it.
+    const isDetailPage = pathname.split('/').length > 2 && pathname.includes('/gallery/');
+
+    if (!isDetailPage) {
+      window.scrollTo(0, 0);
+      const timer = setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }, 0);
+      return () => clearTimeout(timer);
+    }
   }, [pathname]);
 
   return (

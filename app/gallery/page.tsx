@@ -3,30 +3,31 @@
 import { useState } from 'react';
 import { flowerData } from '@/data/flowers';
 import GalleryGrid from '@/components/gallery/GalleryGrid';
-import AmbientQuotes from '@/components/ui/AmbientQuotes'; // Import the component
+import AmbientQuotes from '@/components/ui/AmbientQuotes';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type ViewMode = 'exhibition' | 'archive';
 
 export default function GalleryPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('exhibition');
+  
+  // THE MASTER SYNC: 0.4s and the boutique cubic-bezier
+  const themeSync = "transition-all duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] theme-sync";
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* BOUTIQUE NAV - Tabs + Ambient Quotes */}
+    <div className={`flex flex-col min-h-screen bg-[rgb(var(--bg-main))] ${themeSync}`}>
+      {/* BOUTIQUE NAV */}
       <nav 
-        className="sticky top-[96px] z-30 w-full py-6 border-b border-brand-charcoal/5 backdrop-blur-md theme-sync"
+        className={`sticky top-[96px] z-30 w-full py-6 border-b border-brand-charcoal/5 backdrop-blur-md ${themeSync}`}
         style={{ backgroundColor: 'rgb(var(--bg-main) / 0.8)' }}
       >
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
-          
-          {/* LEFT SIDE: Navigation Tabs */}
           <div className="flex items-center gap-12">
             {['exhibition', 'archive'].map((id) => (
               <button
                 key={id}
                 onClick={() => setViewMode(id as ViewMode)}
-                className={`text-[10px] uppercase transition-all duration-500 ease-out outline-none
+                className={`text-[10px] uppercase outline-none ${themeSync}
                   ${viewMode === id 
                     ? 'text-brand-charcoal font-bold tracking-[0.6em]' 
                     : 'text-brand-charcoal/40 hover:text-brand-charcoal tracking-[0.4em] hover:tracking-[0.6em]'
@@ -36,8 +37,6 @@ export default function GalleryPage() {
               </button>
             ))}
           </div>
-
-          {/* RIGHT SIDE: Ambient Quotes (Desktop Only) */}
           <div className="hidden md:block">
             <AmbientQuotes />
           </div>
@@ -46,13 +45,13 @@ export default function GalleryPage() {
 
       <main className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-24 pb-40 w-full">
         <div className="mb-24">
-           <span className="text-[10px] tracking-[0.4em] uppercase text-brand-accent font-bold mb-4 block">
+           <span className={`text-[10px] tracking-[0.4em] uppercase text-brand-accent font-bold mb-4 block ${themeSync}`}>
              Saldana Photography
            </span>
-           <h2 className="text-5xl md:text-6xl font-serif text-brand-charcoal italic tracking-tight">
+           <h2 className={`text-5xl md:text-6xl font-serif text-brand-charcoal italic tracking-tight ${themeSync}`}>
              {viewMode === 'exhibition' ? 'Curated Series' : 'The Archive'}
            </h2>
-           <div className="mt-8 w-20 h-[1px] bg-brand-charcoal/10" />
+           <div className={`mt-8 w-20 h-[1px] bg-brand-charcoal/10 ${themeSync}`} />
         </div>
 
         <AnimatePresence mode="wait">
@@ -61,7 +60,7 @@ export default function GalleryPage() {
             initial={{ opacity: 0, x: viewMode === 'exhibition' ? -10 : 10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: viewMode === 'exhibition' ? 10 : -10 }}
-            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }} // Syncs with CSS
           >
             <GalleryGrid items={flowerData} viewMode={viewMode} />
           </motion.div>
