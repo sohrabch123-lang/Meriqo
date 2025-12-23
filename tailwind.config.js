@@ -9,50 +9,39 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        /* Primary Theme Surfaces - The "Gallery Wall" */
         'heritage': 'rgb(var(--bg-main) / <alpha-value>)',
         'card': 'rgb(var(--bg-card) / <alpha-value>)',
         'sage': 'rgb(var(--accent-soft) / <alpha-value>)',
-        
-        /* Brand Identity & Typography - The "Ochre & Ink" */
         'brand-accent': 'rgb(var(--brand-accent) / <alpha-value>)',
-        'accent-hover': 'rgb(var(--brand-accent) / <alpha-value>)',
-        
         'brand-charcoal': 'rgb(var(--brand-charcoal) / <alpha-value>)',
-        'charcoal': 'rgb(var(--brand-charcoal) / <alpha-value>)',
-        
         'muted': 'rgb(var(--text-muted) / <alpha-value>)',
       },
       
+      // NEW: Targeted transition for high performance
+      transitionProperty: {
+        'boutique': 'color, background-color, border-color, text-decoration-color, fill, stroke, opacity',
+      },
+
       transitionDuration: {
-        '700': '700ms',
+        '600': '600ms',
         '800': '800ms',
-        '1000': '1000ms',
-        '2000': '2000ms', // For cinematic slow-fade photography
       },
 
       transitionTimingFunction: {
-        'boutique': 'var(--ease-boutique)', // Your custom ease-out curve
+        'boutique': 'cubic-bezier(0.23, 1, 0.32, 1)',
       },
 
-      /* Photography-Specific Letter Spacing */
       letterSpacing: {
         'tightest': '-0.05em',
         'boutique': '0.3em',
         'logo': '0.5em',
         'editorial': '0.6em',
-        'gallery': '0.8em', // Wide tracking for "The Archive" headers
+        'gallery': '0.8em',
       },
 
-      /* Added: Image Scale for "Soft Zoom" Hover Effects */
-      scale: {
-        '102': '1.02', // Subtle lift for photo thumbnails
-      },
-
-      /* Added: Professional Gallery Shadows */
       boxShadow: {
-        'gallery': '0 30px 60px -12px rgba(0, 0, 0, 0.15)',
-        'gallery-dark': '0 30px 60px -12px rgba(0, 0, 0, 0.5)',
+        'gallery': '0 30px 60px -12px rgba(0, 0, 0, 0.12)',
+        'gallery-dark': '0 30px 60px -12px rgba(0, 0, 0, 0.4)',
       }
     },
   },

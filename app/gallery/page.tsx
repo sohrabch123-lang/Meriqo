@@ -4,63 +4,71 @@ import { useState } from 'react';
 import { flowerData } from '@/data/flowers';
 import GalleryGrid from '@/components/gallery/GalleryGrid';
 import AmbientQuotes from '@/components/ui/AmbientQuotes';
-import { motion, AnimatePresence } from 'framer-motion';
+import ViewToggle from '@/components/gallery/ViewToggle'; 
+import { motion, AnimatePresence, BezierDefinition } from 'framer-motion';
 
 type ViewMode = 'exhibition' | 'archive';
 
 export default function GalleryPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('exhibition');
   
-  // THE MASTER SYNC: 0.4s and the boutique cubic-bezier
-  const themeSync = "transition-all duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] theme-sync";
+  const themeSync = "transition-[background-color,border-color,color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)]";
+  const boutiqueEase: BezierDefinition = [0.23, 1, 0.32, 1];
 
   return (
     <div className={`flex flex-col min-h-screen bg-[rgb(var(--bg-main))] ${themeSync}`}>
-      {/* BOUTIQUE NAV */}
+      
+      {/* BOUTIQUE NAV - Secondary */}
       <nav 
-        className={`sticky top-[96px] z-30 w-full py-6 border-b border-brand-charcoal/5 backdrop-blur-md ${themeSync}`}
-        style={{ backgroundColor: 'rgb(var(--bg-main) / 0.8)' }}
+        /* FIX 1: changed top-0 to top-24 (96px) to sit perfectly under the main navbar 
+           FIX 2: increased z-index to 40 
+        */
+        className={`sticky top-24 z-40 w-full py-6 border-b border-brand-charcoal/10 backdrop-blur-md ${themeSync}`}
+        style={{ 
+          backgroundColor: 'rgb(var(--bg-main) / 0.85)',
+          isolation: 'isolate' 
+        }}
       >
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
-          <div className="flex items-center gap-12">
-            {['exhibition', 'archive'].map((id) => (
-              <button
-                key={id}
-                onClick={() => setViewMode(id as ViewMode)}
-                className={`text-[10px] uppercase outline-none ${themeSync}
-                  ${viewMode === id 
-                    ? 'text-brand-charcoal font-bold tracking-[0.6em]' 
-                    : 'text-brand-charcoal/40 hover:text-brand-charcoal tracking-[0.4em] hover:tracking-[0.6em]'
-                  }`}
-              >
-                {id === 'exhibition' ? 'The Exhibition' : 'The Archive'}
-              </button>
-            ))}
-          </div>
+          <ViewToggle currentMode={viewMode} onViewChange={setViewMode} />
+          
           <div className="hidden md:block">
             <AmbientQuotes />
           </div>
         </div>
       </nav>
 
-      <main className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-24 pb-40 w-full">
-        <div className="mb-24">
-           <span className={`text-[10px] tracking-[0.4em] uppercase text-brand-accent font-bold mb-4 block ${themeSync}`}>
+      <main className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-12 pb-40 w-full">
+        {/* ... rest of the content remains the same ... */}
+        <div className="mb-16">
+           <motion.span 
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             className={`text-[10px] tracking-[0.4em] uppercase text-brand-accent font-bold mb-4 block ${themeSync}`}
+           >
              Saldana Photography
-           </span>
-           <h2 className={`text-5xl md:text-6xl font-serif text-brand-charcoal italic tracking-tight ${themeSync}`}>
+           </motion.span>
+           
+           <motion.h2 
+             key={viewMode}
+             initial={{ opacity: 0, x: -5 }}
+             animate={{ opacity: 1, x: 0 }}
+             className={`text-5xl md:text-6xl font-serif text-brand-charcoal italic tracking-tight ${themeSync}`}
+           >
              {viewMode === 'exhibition' ? 'Curated Series' : 'The Archive'}
-           </h2>
+           </motion.h2>
+           
            <div className={`mt-8 w-20 h-[1px] bg-brand-charcoal/10 ${themeSync}`} />
         </div>
 
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={viewMode}
-            initial={{ opacity: 0, x: viewMode === 'exhibition' ? -10 : 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: viewMode === 'exhibition' ? 10 : -10 }}
-            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }} // Syncs with CSS
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.6, ease: boutiqueEase }}
+            className="will-change-[opacity,transform]"
           >
             <GalleryGrid items={flowerData} viewMode={viewMode} />
           </motion.div>

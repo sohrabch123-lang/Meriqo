@@ -20,7 +20,6 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
     <AnimatePresence mode="wait">
       <motion.div 
         key={flower.id} 
-        // REDUCED y: Closer to top (8px instead of 15px) for a tighter pop-in
         initial={{ opacity: 0, y: 8 }} 
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
@@ -28,12 +27,16 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
         className={`max-w-[1400px] mx-auto px-6 bg-transparent ${themeSync}`}
       >
         
-        {/* FIXED TOP GAP: 
-            Changed pt-32 to pt-12 to push the whole page closer to the top 
+        {/* STICKY NAV SECTION 
+            FIX: Changed 'top-0' to 'top-24' to sit under the main Navbar (96px).
+            FIX: Adjusted padding (py-6) for vertical balance.
         */}
         <div 
-          className={`sticky top-0 z-30 pt-12 pb-6 backdrop-blur-md border-b border-brand-charcoal/10 mb-8 ${themeSync}`}
-          style={{ backgroundColor: 'rgb(var(--bg-main) / 0.8)' }}
+          className={`sticky top-24 z-30 py-6 backdrop-blur-md border-b border-brand-charcoal/10 mb-8 ${themeSync}`}
+          style={{ 
+            backgroundColor: 'rgb(var(--bg-main) / 0.85)',
+            isolation: 'isolate' 
+          }}
         >
           <div className="flex justify-between items-center">
             <Link href="/gallery" scroll={false} className={`group flex items-center gap-3 ${themeSync}`}>
@@ -48,7 +51,7 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
                   Prev
                 </span>
               </Link>
-              <div className={`h-6 w-[1px] bg-brand-charcoal/10 ${themeSync}`}></div>
+              <div className={`h-4 w-[1px] bg-brand-charcoal/10 ${themeSync}`}></div>
               <Link href={`/gallery/${nextSlug}`} scroll={false} className="group">
                 <span className={`text-[10px] tracking-[0.3em] uppercase text-brand-charcoal/40 group-hover:text-brand-charcoal transition-colors ${themeSync}`}>
                   Next
@@ -58,8 +61,8 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
           </div>
         </div>
 
-        {/* Added a tighter gap between nav and content */}
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start pb-32">
+        {/* CONTENT AREA */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start pb-32 pt-4">
           
           {/* LEFT: IMAGE */}
           <div className="w-full lg:w-[60%]">
@@ -77,12 +80,14 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
             </Reveal>
           </div>
 
-          {/* RIGHT: CONTENT */}
-          <div className="w-full lg:w-[40%] lg:sticky lg:top-32 space-y-10">
+          {/* RIGHT: CONTENT 
+              NOTE: top-32 here is for the sidebar stickiness itself 
+          */}
+          <div className="w-full lg:w-[40%] lg:sticky lg:top-40 space-y-10">
             <header>
               <Reveal delay={0.15} y={8} instant>
                 <span className={`text-brand-accent font-bold tracking-[0.4em] uppercase text-[10px] mb-4 block ${themeSync}`}>
-                  {flower.category} // Technical Study
+                  {flower.category}
                 </span>
               </Reveal>
               <Reveal delay={0.2} duration={0.4} y={10} instant>
