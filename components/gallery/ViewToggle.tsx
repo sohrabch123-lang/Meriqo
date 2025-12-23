@@ -30,28 +30,38 @@ export default function ViewToggle({ currentMode, onViewChange }: ViewToggleProp
       {(['exhibition', 'archive'] as const).map((id) => {
         const isActive = currentMode === id;
         return (
-          <button
-            key={id}
-            onClick={() => handleToggle(id)}
-            disabled={isAnimating}
-            className={`relative py-2 text-[10px] uppercase outline-none transition-colors duration-500 font-medium
-              ${isActive ? 'text-brand-charcoal' : 'text-brand-charcoal/30 hover:text-brand-charcoal/60'}
-              ${isAnimating ? 'cursor-wait' : 'cursor-pointer'}
-            `}
-          >
-            <span className={`transition-all duration-500 ${isActive ? 'tracking-[0.6em]' : 'tracking-[0.4em]'}`}>
-              {id === 'exhibition' ? 'The Exhibition' : 'The Archive'}
-            </span>
+       // 1. Remove "transition-all" and "duration-500" from the button className.
+// 2. Use Framer Motion for the text color as well.
 
-            {isActive && (
-              <motion.div
-                layoutId="activeTab"
-                className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-brand-accent"
-                // 3. Now this will be perfectly happy
-                transition={{ duration: 0.6, ease: boutiqueEase }}
-              />
-            )}
-          </button>
+<button
+  key={id}
+  onClick={() => handleToggle(id)}
+  disabled={isAnimating}
+  className={`relative py-2 text-[10px] uppercase outline-none font-medium ${
+    isAnimating ? 'cursor-wait' : 'cursor-pointer'
+  }`}
+>
+  <motion.span 
+    // This replaces the CSS transition. 
+    // Framer handles the theme color shift MUCH cleaner than CSS 'transition-colors'.
+    animate={{ 
+      color: isActive ? 'rgb(var(--brand-charcoal))' : 'rgba(var(--brand-charcoal), 0.3)',
+      letterSpacing: isActive ? '0.6em' : '0.4em'
+    }}
+    transition={{ duration: 0.5, ease: boutiqueEase }}
+    className="block"
+  >
+    {id === 'exhibition' ? 'The Exhibition' : 'The Archive'}
+  </motion.span>
+
+  {isActive && (
+    <motion.div
+      layoutId="activeTab"
+      className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-brand-accent"
+      transition={{ duration: 0.6, ease: boutiqueEase }}
+    />
+  )}
+</button>
         );
       })}
     </div>
