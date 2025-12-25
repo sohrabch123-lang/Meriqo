@@ -2,9 +2,7 @@ import { flowerData } from '@/data/flowers';
 import { notFound } from 'next/navigation';
 import FlowerDetailClient from './FlowerDetailClient';
 
-// --- BOUTIQUE IMPORTS ---
-import { ANIMATION } from '@/lib/constants';
-
+// This is a Server Component, keep it lean!
 export default async function FlowerDetailPage({ 
   params 
 }: { 
@@ -22,18 +20,14 @@ export default async function FlowerDetailPage({
   const nextFlower = flowerData[currentIndex + 1] || flowerData[0];
 
   return (
-    /**
-     * 2025 Performance Tip:
-     * We apply the ANIMATION.THEME_SYNC here even on the server wrapper.
-     * This ensures that if a user deep-links directly to a flower detail page,
-     * the background color doesn't "jump" during hydration.
-     */
-    <div className={`min-h-screen ${ANIMATION.THEME_SYNC}`}>
-      <FlowerDetailClient 
-        flower={flower} 
-        prevSlug={prevFlower.slug} 
-        nextSlug={nextFlower.slug} 
-      />
-    </div>
+    /* Removed the extra <main> and background classes. 
+       The Layout and Template already provide the background and padding.
+       This prevents "Double Scrolling" or "Double Background" bugs.
+    */
+    <FlowerDetailClient 
+      flower={flower} 
+      prevSlug={prevFlower.slug} 
+      nextSlug={nextFlower.slug} 
+    />
   );
 }
