@@ -1,5 +1,6 @@
-'use client';
+'use client'; 
 
+import { memo } from 'react';
 import { motion, AnimatePresence, BezierDefinition } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,14 +11,18 @@ interface GalleryGridProps {
   viewMode: 'exhibition' | 'archive';
 }
 
-export default function GalleryGrid({ items, viewMode }: GalleryGridProps) {
+const GalleryGrid = memo(function GalleryGrid({ items, viewMode }: GalleryGridProps) {
   const boutiqueEase: BezierDefinition = [0.23, 1, 0.32, 1];
+  
+  // THE FIX: We remove the 'all' or 'layout' properties from CSS transitions.
+  // We only want Tailwind to handle the COLOR fade. 
+  // Framer Motion handles the movement.
+  const colorSync = "transition-colors duration-700 ease-[var(--ease-boutique)]";
 
   return (
     <motion.div 
       layout
-      // FIXED: Removed all 'transition-all' from the grid. 
-      // Framer Motion's 'layout' prop handles the column shifting smoothly.
+      /* Removed themeSync here to prevent conflict with layout animation */
       className={`grid gap-x-8 lg:gap-x-16 ${
         viewMode === 'exhibition' 
           ? 'grid-cols-1 md:grid-cols-12 gap-y-40' 
@@ -51,22 +56,22 @@ export default function GalleryGrid({ items, viewMode }: GalleryGridProps) {
           return (
             <motion.div
               key={item.id}
-              layout // Essential: Animates the container's size/position change
+              layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ 
                 duration: 0.7, 
                 ease: boutiqueEase,
-                // layout transition specifically tuned for the grid shuffle
-                layout: { duration: 0.7, ease: boutiqueEase } 
+                // layout: { duration: 0.7, ease: boutiqueEase } // This is good
               }}
               className={`${colSpan} ${extraClasses} flex flex-col group relative transform-gpu`}
             >
               <Link href={`/gallery/${item.slug}`} className="block outline-none">
                 <motion.div 
-                  layout // This prevents the 'flicker' when the aspect ratio changes
-                  className={`relative overflow-hidden rounded-sm bg-card border border-brand-charcoal/5 ${aspect}`}
+                  layout
+                  /* Only transition COLORS here, let Framer handle the aspect ratio/layout change */
+                  className={`relative overflow-hidden rounded-sm bg-card border border-brand-charcoal/5 ${aspect} ${colorSync}`}
                 >
                   <Image
                     src={item.image}
@@ -79,14 +84,14 @@ export default function GalleryGrid({ items, viewMode }: GalleryGridProps) {
 
                 <motion.div layout className="mt-6">
                   <div className="flex justify-between items-baseline">
-                    <h3 className="font-serif text-lg text-brand-charcoal truncate pr-4">
+                    <h3 className={`font-serif text-lg text-brand-charcoal truncate pr-4 ${colorSync}`}>
                       {item.title}
                     </h3>
-                    <span className="text-[9px] text-brand-charcoal/40 font-sans tracking-widest">
+                    <span className={`text-[9px] text-brand-charcoal/40 font-sans tracking-widest ${colorSync}`}>
                       ${item.price}
                     </span>
                   </div>
-                  <p className="mt-1 text-[8px] tracking-[0.2em] uppercase text-brand-accent font-bold">
+                  <p className={`mt-1 text-[8px] tracking-[0.2em] uppercase text-brand-accent font-bold ${colorSync}`}>
                     {item.type}
                   </p>
                 </motion.div>
@@ -97,4 +102,6 @@ export default function GalleryGrid({ items, viewMode }: GalleryGridProps) {
       </AnimatePresence>
     </motion.div>
   );
-}
+});
+
+export default GalleryGrid;

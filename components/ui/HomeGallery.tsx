@@ -6,11 +6,9 @@ import Image from 'next/image';
 export default function HomeGallery() {
   const onceConfig = { once: true, amount: 0.2 };
 
-  // FIX: Explicitly typed as BezierDefinition so TS knows it's exactly 4 numbers
+  // 1. SYNCED CONSTANTS: The 700ms Master Pace
   const boutiqueEase: BezierDefinition = [0.23, 1, 0.32, 1];
-
-  // Utility for internal component syncing
-  const themeTransition = "transition-colors duration-[0.4s] ease-[cubic-bezier(0.23,1,0.32,1)] theme-sync";
+  const themeTransition = "transition-colors duration-700 ease-[var(--ease-boutique)] theme-sync";
 
   return (
     <section className={`bg-[rgb(var(--bg-main))] pb-10 ${themeTransition}`}>
@@ -21,6 +19,7 @@ export default function HomeGallery() {
           initial={{ scale: 1.1 }}
           whileInView={{ scale: 1 }}
           viewport={onceConfig} 
+          /* Duration kept at 1.5s for the cinematic zoom, but easing matched */
           transition={{ duration: 1.5, ease: boutiqueEase }}
           className="relative h-full w-full"
         >
@@ -29,9 +28,10 @@ export default function HomeGallery() {
             alt="Cinematic Scale" 
             fill 
             priority 
-            className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+            className="object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-[var(--ease-boutique)]"
           />
         </motion.div>
+        {/* Text synced to 700ms theme fade */}
         <div className={`absolute bottom-12 left-12 text-[rgb(var(--bg-main))] uppercase text-[9px] tracking-[0.6em] z-10 ${themeTransition}`}>
           Scale // 001 — Full Bleed
         </div>
@@ -43,8 +43,9 @@ export default function HomeGallery() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={onceConfig} 
-          transition={{ duration: 0.8, ease: boutiqueEase }}
-          className="w-full md:w-1/2 aspect-[4/5] relative bg-brand-charcoal/5"
+          /* Duration updated to 0.7 to match global sync */
+          transition={{ duration: 0.7, ease: boutiqueEase }}
+          className={`w-full md:w-1/2 aspect-[4/5] relative bg-brand-charcoal/5 ${themeTransition}`}
         >
           <Image 
             src="/images/image22.jpeg" 
@@ -59,10 +60,11 @@ export default function HomeGallery() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={onceConfig}
-            transition={{ delay: 0.2, duration: 0.5, ease: boutiqueEase }}
+            /* Transition updated to 0.7 */
+            transition={{ delay: 0.2, duration: 0.7, ease: boutiqueEase }}
           >
             <p className={`text-[10px] uppercase tracking-[0.4em] text-brand-charcoal/30 font-bold mb-4 ${themeTransition}`}>
-               Observation 042
+                Observation 042
             </p>
             <p className={`font-serif italic text-xl text-brand-charcoal/60 max-w-xs leading-relaxed ${themeTransition}`}>
               "The beauty of the fragment is that it suggests the whole without revealing it."
@@ -77,8 +79,8 @@ export default function HomeGallery() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={onceConfig} 
-          transition={{ duration: 0.8, ease: boutiqueEase }}
-          className="w-full max-w-md aspect-square relative shadow-2xl mb-8"
+          transition={{ duration: 0.7, ease: boutiqueEase }}
+          className={`w-full max-w-md aspect-square relative shadow-2xl mb-8 ${themeTransition}`}
         >
           <Image 
             src="/images/image16.jpeg" 
@@ -87,10 +89,12 @@ export default function HomeGallery() {
             className="object-cover grayscale"
           />
         </motion.div>
+        {/* Decorative line synced to 700ms */}
         <motion.div 
           initial={{ height: 0 }}
           whileInView={{ height: 64 }}
           viewport={onceConfig}
+          transition={{ duration: 0.7, ease: boutiqueEase }}
           className={`w-[1px] bg-brand-accent/30 ${themeTransition}`} 
         />
       </div>

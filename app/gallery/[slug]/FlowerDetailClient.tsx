@@ -7,8 +7,9 @@ import Reveal from '@/components/ui/Reveal';
 import { motion, BezierDefinition, AnimatePresence } from 'framer-motion';
 
 export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) {
-  const themeSync = "transition-all duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)] theme-sync";
+  // 1. SYNCED CONSTANTS: Moving from 400ms to the 700ms Master Clock
   const boutiqueEase: BezierDefinition = [0.23, 1, 0.32, 1];
+  const themeSync = "transition-colors duration-700 ease-[var(--ease-boutique)]";
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -23,14 +24,12 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
         initial={{ opacity: 0, y: 8 }} 
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.5, ease: boutiqueEase }}
+        /* 2. MATCHED ANIMATION: Framer Motion now matches the CSS color fade speed */
+        transition={{ duration: 0.7, ease: boutiqueEase }}
         className={`max-w-[1400px] mx-auto px-6 bg-transparent ${themeSync}`}
       >
         
-        {/* STICKY NAV SECTION 
-            FIX: Changed 'top-0' to 'top-24' to sit under the main Navbar (96px).
-            FIX: Adjusted padding (py-6) for vertical balance.
-        */}
+        {/* SECONDARY NAV: Synced to follow the main Navbar (top-24) */}
         <div 
           className={`sticky top-24 z-30 py-6 backdrop-blur-md border-b border-brand-charcoal/10 mb-8 ${themeSync}`}
           style={{ 
@@ -39,21 +38,21 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
           }}
         >
           <div className="flex justify-between items-center">
-            <Link href="/gallery" scroll={false} className={`group flex items-center gap-3 ${themeSync}`}>
-              <span className={`text-[10px] tracking-[0.4em] uppercase text-brand-charcoal/60 group-hover:text-brand-accent group-hover:tracking-[0.5em] font-medium transition-all ${themeSync}`}>
+            <Link href="/gallery" scroll={false} className="group flex items-center gap-3">
+              <span className={`text-[10px] tracking-[0.4em] uppercase text-brand-charcoal/60 group-hover:text-brand-accent group-hover:tracking-[0.5em] font-medium transition-all duration-700 ease-[var(--ease-boutique)]`}>
                 &larr; Archive
               </span>
             </Link>
             
             <div className="flex items-center gap-8">
               <Link href={`/gallery/${prevSlug}`} scroll={false} className="group">
-                <span className={`text-[10px] tracking-[0.3em] uppercase text-brand-charcoal/40 group-hover:text-brand-charcoal transition-colors ${themeSync}`}>
+                <span className={`text-[10px] tracking-[0.3em] uppercase text-brand-charcoal/40 group-hover:text-brand-charcoal ${themeSync}`}>
                   Prev
                 </span>
               </Link>
               <div className={`h-4 w-[1px] bg-brand-charcoal/10 ${themeSync}`}></div>
               <Link href={`/gallery/${nextSlug}`} scroll={false} className="group">
-                <span className={`text-[10px] tracking-[0.3em] uppercase text-brand-charcoal/40 group-hover:text-brand-charcoal transition-colors ${themeSync}`}>
+                <span className={`text-[10px] tracking-[0.3em] uppercase text-brand-charcoal/40 group-hover:text-brand-charcoal ${themeSync}`}>
                   Next
                 </span>
               </Link>
@@ -72,17 +71,16 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
                   src={flower.image} 
                   alt={flower.alt} 
                   fill 
-                  className="object-cover transition-transform duration-[3s] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105" 
+                  className="object-cover transition-transform duration-[3s] ease-[var(--ease-boutique)] group-hover:scale-105" 
                   priority
                 />
-                <div className={`absolute inset-0 bg-brand-charcoal/5 opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] ${themeSync}`} />
+                {/* Visual Overlay: Fades in 700ms */}
+                <div className={`absolute inset-0 bg-brand-charcoal/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ${themeSync}`} />
               </div>
             </Reveal>
           </div>
 
-          {/* RIGHT: CONTENT 
-              NOTE: top-32 here is for the sidebar stickiness itself 
-          */}
+          {/* RIGHT: CONTENT */}
           <div className="w-full lg:w-[40%] lg:sticky lg:top-40 space-y-10">
             <header>
               <Reveal delay={0.15} y={8} instant>
@@ -102,7 +100,6 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
               </Reveal>
             </header>
             
-            {/* Metadata Section */}
             <Reveal delay={0.3} y={8} instant>
               <div className={`grid grid-cols-2 gap-y-6 pt-10 border-t border-brand-charcoal/10 ${themeSync}`}>
                 <div>
@@ -125,17 +122,19 @@ export default function FlowerDetailClient({ flower, prevSlug, nextSlug }: any) 
             </Reveal>
             
             <Reveal delay={0.35} duration={0.4} y={8} instant>
-              <p className={`text-brand-charcoal/70 text-base md:text-lg leading-relaxed font-serif italic max-w-prose ${themeSync}`}>
+              <p className={`text-brand-charcoal/70 text-base md:text-lg leading-relaxed font-serif italic max-prose ${themeSync}`}>
                 &ldquo;{flower.description}&rdquo;
               </p>
             </Reveal>
 
             <Reveal delay={0.45} duration={0.4} y={5} instant>
+              {/* BUTTON SYNC: Matches the 700ms theme switch for the background color */}
               <button className={`group relative w-full py-6 bg-brand-charcoal text-[rgb(var(--bg-main))] overflow-hidden ${themeSync}`}>
                 <span className="relative z-10 text-[11px] font-bold tracking-[0.5em] uppercase">
                   Acquire Work
                 </span>
-                <div className="absolute inset-0 bg-brand-accent transform translate-y-full group-hover:translate-y-0 transition-transform duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)]" />
+                {/* The hover effect can stay fast (400ms) because it's an interaction, not a theme fade */}
+                <div className="absolute inset-0 bg-brand-accent transform translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-[var(--ease-boutique)]" />
               </button>
             </Reveal>
           </div>

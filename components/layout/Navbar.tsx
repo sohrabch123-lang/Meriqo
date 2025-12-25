@@ -13,9 +13,9 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Global Boutique Sync: 400ms duration with the custom ease-out
+  // 1. SYNCED CONSTANTS: Using the 700ms Master Clock to match GalleryLayout and Globals.css
   const boutiqueEase: BezierDefinition = [0.23, 1, 0.32, 1];
-  const themeSync = "transition-[background-color,border-color,color] duration-[400ms] ease-[cubic-bezier(0.23,1,0.32,1)]";
+  const themeSync = "transition-colors duration-700 ease-[var(--ease-boutique)]";
 
   useEffect(() => { setMounted(true); }, []);
   useEffect(() => { setIsOpen(false); }, [pathname]);
@@ -38,17 +38,18 @@ export default function Navbar() {
   return (
     <>
       <header 
+        /* 2. HEADER SYNC: backdrop-blur and border-color now transition on the same 700ms clock */
         className={`sticky top-0 z-[100] w-full border-b border-brand-charcoal/10 backdrop-blur-md ${themeSync}`}
         style={{ 
-          backgroundColor: 'rgb(var(--bg-main) / 0.9)', 
+          backgroundColor: 'rgb(var(--bg-main) / 0.85)', 
           isolation: 'isolate' 
         }}
       >
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex justify-between items-center h-24">
             
-            {/* LOGO */}
-            <Link href="/" className="z-[110] outline-none">
+            {/* LOGO: Cleaned up to inherit global text transition */}
+            <Link href="/" className="z-[110] outline-none group">
               <span className={`font-serif italic tracking-[0.2em] text-2xl text-brand-charcoal ${themeSync}`}>
                 Saldana
               </span>
@@ -64,10 +65,11 @@ export default function Navbar() {
                       <li key={link.name} className="relative flex flex-col items-center">
                         <Link 
                           href={link.href} 
-                          className={`text-[10px] uppercase transition-all duration-[400ms] ease-boutique
+                          /* 3. LINK SYNC: duration set to 700 to match background fade */
+                          className={`text-[10px] uppercase transition-all duration-700 ease-[var(--ease-boutique)]
                             ${active 
-                              ? 'text-brand-charcoal font-bold opacity-100' 
-                              : 'text-brand-charcoal/40 hover:text-brand-charcoal hover:opacity-100'}
+                              ? 'text-brand-charcoal font-bold' 
+                              : 'text-brand-charcoal/40 hover:text-brand-charcoal'}
                             tracking-[0.4em]
                           `}
                         >
@@ -80,10 +82,10 @@ export default function Navbar() {
               </nav>
 
               <div className="flex items-center gap-4">
-                {/* SYNCED THEME TOGGLE */}
+                {/* THEME TOGGLE: Matches the 700ms timing exactly */}
                 <button 
                   onClick={() => setTheme(isDark ? 'light' : 'dark')}
-                  className={`relative h-10 w-10 flex items-center justify-center rounded-full border border-brand-charcoal/10 hover:border-brand-charcoal text-brand-charcoal transition-all duration-[400ms] ease-boutique z-[110]`}
+                  className={`relative h-10 w-10 flex items-center justify-center rounded-full border border-brand-charcoal/10 hover:border-brand-charcoal text-brand-charcoal transition-all duration-700 ease-[var(--ease-boutique)] z-[110]`}
                 >
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
@@ -91,7 +93,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, rotate: -20, scale: 0.8 }}
                       animate={{ opacity: 1, rotate: 0, scale: 1 }}
                       exit={{ opacity: 0, rotate: 20, scale: 0.8 }}
-                      transition={{ duration: 0.4, ease: boutiqueEase }}
+                      transition={{ duration: 0.7, ease: boutiqueEase }}
                     >
                       {isDark ? (
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2m-18.78 7.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
@@ -109,12 +111,12 @@ export default function Navbar() {
                 >
                   <motion.span 
                     animate={isOpen ? { rotate: 45, y: 4.5 } : { rotate: 0, y: 0 }}
-                    transition={{ duration: 0.4, ease: boutiqueEase }}
+                    transition={{ duration: 0.7, ease: boutiqueEase }}
                     className={`w-6 h-[1px] bg-brand-charcoal ${themeSync}`}
                   />
                   <motion.span 
                     animate={isOpen ? { rotate: -45, y: -4.5 } : { rotate: 0, y: 0 }}
-                    transition={{ duration: 0.4, ease: boutiqueEase }}
+                    transition={{ duration: 0.7, ease: boutiqueEase }}
                     className={`w-6 h-[1px] bg-brand-charcoal ${themeSync}`}
                   />
                 </button>
@@ -131,7 +133,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: boutiqueEase }}
+            transition={{ duration: 0.7, ease: boutiqueEase }}
             className="fixed inset-0 z-[90] bg-[rgb(var(--bg-main))] flex flex-col items-center justify-center"
           >
             <nav className="flex flex-col items-center gap-10">
@@ -141,11 +143,11 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  transition={{ delay: i * 0.05, duration: 0.5, ease: boutiqueEase }}
+                  transition={{ delay: i * 0.05, duration: 0.7, ease: boutiqueEase }}
                 >
                   <Link 
                     href={link.href} 
-                    className={`text-4xl font-serif italic tracking-widest transition-colors duration-[400ms]
+                    className={`text-4xl font-serif italic tracking-widest transition-colors duration-700
                       ${pathname === link.href ? 'text-brand-charcoal' : 'text-brand-charcoal/30'}
                     `}
                   >

@@ -3,7 +3,6 @@ module.exports = {
   darkMode: 'class',
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
@@ -17,14 +16,15 @@ module.exports = {
         'muted': 'rgb(var(--text-muted) / <alpha-value>)',
       },
       
-      // NEW: Targeted transition for high performance
-      transitionProperty: {
-        'boutique': 'color, background-color, border-color, text-decoration-color, fill, stroke, opacity',
+      // NEW: Explicit Font Weights to combat "fat" dark mode text
+      fontWeight: {
+        'light-sharp': '300',
+        'book-sharp': '400',
+        'medium-sharp': '500',
       },
 
-      transitionDuration: {
-        '600': '600ms',
-        '800': '800ms',
+      transitionProperty: {
+        'boutique': 'color, background-color, border-color, opacity, transform',
       },
 
       transitionTimingFunction: {
@@ -32,16 +32,13 @@ module.exports = {
       },
 
       letterSpacing: {
-        'tightest': '-0.05em',
         'boutique': '0.3em',
-        'logo': '0.5em',
-        'editorial': '0.6em',
-        'gallery': '0.8em',
+        'gallery': '0.6em', // Reduced from 0.8em to sharpen readability
       },
 
       boxShadow: {
-        'gallery': '0 30px 60px -12px rgba(0, 0, 0, 0.12)',
-        'gallery-dark': '0 30px 60px -12px rgba(0, 0, 0, 0.4)',
+        'gallery': '0 20px 40px -15px rgba(0, 0, 0, 0.08)',
+        'gallery-dark': '0 20px 40px -15px rgba(0, 0, 0, 0.3)', // Reduced opacity from 0.5
       }
     },
   },

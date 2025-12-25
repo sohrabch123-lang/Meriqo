@@ -7,8 +7,8 @@ import Reveal from '@/components/ui/Reveal';
 import Footer from '@/components/ui/Footer';
 
 export default function HomePage() {
-  // Matching your CSS exactly: 0.4s and the Boutique Ease curve
-  const syncClass = "transition-colors duration-[0.4s] ease-[cubic-bezier(0.23,1,0.32,1)] theme-sync";
+  // 1. MASTER SYNC: Updated to 700ms and using the CSS variable for the ease curve
+  const syncClass = "transition-colors duration-700 ease-[var(--ease-boutique)] theme-sync";
 
   return (
     <div id="top" className={`overflow-hidden bg-[rgb(var(--bg-main))] min-h-screen ${syncClass}`}>
@@ -20,6 +20,8 @@ export default function HomePage() {
 
       {/* 2. NARRATIVE FLOW (Manifesto) */}
       <div className={`relative z-10 bg-[rgb(var(--bg-main))] ${syncClass}`}>
+        {/* NOTE: If you still have path issues with HomeFlow, 
+            ensure this import matches the actual file location in your sidebar */}
         <HomeFlow />
       </div>
 
@@ -29,12 +31,13 @@ export default function HomePage() {
       </div>
 
       {/* 4. PHILOSOPHY TEXT 
-          Explicitly syncing text colors and background to the 0.4s timer
+          Explicitly syncing text colors and background to the 700ms timer
       */}
       <section className={`relative z-30 bg-[rgb(var(--bg-main))] py-24 md:py-32 text-center ${syncClass}`}>
         <div className="max-w-[1400px] mx-auto px-6">
-          <Reveal y={10}>
-            <span className="text-brand-accent tracking-[0.6em] uppercase text-[10px] font-bold mb-6 block">
+          {/* We use 0.7 duration here to match the theme fade speed */}
+          <Reveal y={10} duration={0.7}>
+            <span className={`text-brand-accent tracking-[0.6em] uppercase text-[10px] font-bold mb-6 block ${syncClass}`}>
               The Vision
             </span>
             <h3 className={`text-4xl md:text-6xl font-serif text-[rgb(var(--brand-charcoal))] italic leading-tight ${syncClass}`}>

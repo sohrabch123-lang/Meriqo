@@ -4,86 +4,82 @@
 
 @layer base {
   :root {
+    /* Pure CSS Variables - No hex codes in the layers */
     --bg-main: 251 250 245; 
     --brand-charcoal: 18 18 18;
     --brand-accent: 165 155 145; 
     --bg-card: 255 255 255;
     --accent-soft: 215 210 205;
     --text-muted: 120 115 110;
+    --heritage: 251 250 245;
     --ease-boutique: cubic-bezier(0.23, 1, 0.32, 1);
   }
 
   .dark {
-    --bg-main: 18 18 18 !important; 
-    --brand-charcoal: 235 230 225 !important;
-    --bg-card: 28 28 26 !important;
-    --accent-soft: 38 38 36 !important;
-    --text-muted: 140 140 135 !important;
+    /* Using !important here to override any local theme-light defaults */
+    --bg-main: 22 22 22 !important; 
+    --brand-charcoal: 215 210 205 !important;
+    --bg-card: 32 32 30 !important;
+    --accent-soft: 42 42 40 !important;
+    --text-muted: 130 130 125 !important;
+    --heritage: 22 22 22 !important;
   }
 
-  html {
-    background-color: rgb(var(--bg-main));
-    /* Removed transition: prevents layout calculation lag */
-    scroll-behavior: smooth;
-    height: 100%;
-  }
-
-  body {
+  html, body {
     background-color: rgb(var(--bg-main));
     color: rgb(var(--brand-charcoal));
-    /* Removed global transition: let Framer Motion handle the 'fade' */
+    
+    /* THE MASTER CLOCK: Applied to the root for absolute sync */
+    transition-property: background-color, color, border-color, text-decoration-color;
+    transition-duration: 700ms;
+    transition-timing-function: var(--ease-boutique);
+
     -webkit-font-smoothing: antialiased;
-    position: relative;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
     overflow-x: hidden;
-    min-height: 100%;
-    margin: 0;
   }
 
-  /* THE STICKY NAV FIX */
-  .sticky.top-0 {
-    background-color: rgb(var(--bg-main) / 0.85);
-    border-bottom: 1px solid rgb(var(--brand-charcoal) / 0.08);
-    /* Transition only specific colors, never the layout or blur */
-    transition: background-color 0.5s var(--ease-boutique), border-color 0.5s var(--ease-boutique);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transform: translateZ(0);
-    isolation: isolate; /* Crucial: stops grid items from flickering through the nav */
+  /* Universal Border Sync: Ensuring all borders fade with the theme */
+  * {
+    border-color: rgb(var(--brand-charcoal) / 0.1);
   }
 
-  /* FILM GRAIN - Pure Neutral Filter */
+  /* FILM GRAIN - Keeps the texture consistent across theme shifts */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
     pointer-events: none;
-    z-index: 50;
-    opacity: 0.012; 
-    filter: grayscale(100%) contrast(150%);
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    z-index: 99;
+    opacity: 0.008; 
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .dark body::before { opacity: 0.007; }
+  .dark body::before { opacity: 0.004; }
+
+  .sticky-nav {
+    background-color: rgb(var(--bg-main) / 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgb(var(--brand-charcoal) / 0.05);
+    /* Nav specific transition to ensure it feels sticky but fluid */
+    transition: background-color 700ms var(--ease-boutique), 
+                border-color 700ms var(--ease-boutique);
+  }
 }
 
 @layer components {
-  /* Targeted Theme Sync: Prevents "All" transition lag */
+  /**
+   * THE THEME SYNC UTILITY
+   * Use this class on any section or div that has its own background color.
+   * It prevents the "weird" timing by ignoring layout/transform changes.
+   */
   .theme-sync {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-property: background-color, color, border-color, opacity, fill, stroke;
+    transition-duration: 700ms;
     transition-timing-function: var(--ease-boutique);
-    transition-duration: 500ms;
+    /* Forces GPU for smoother color interpolation */
+    will-change: background-color, color;
   }
-
-  .img-gallery-container {
-    @apply relative overflow-hidden bg-card border border-brand-charcoal/5 theme-sync transform-gpu;
-  }
-}
-
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { 
-  background: rgb(var(--brand-accent) / 0.3);
-  border-radius: 10px;
 }
