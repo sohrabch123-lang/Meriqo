@@ -1,17 +1,16 @@
 'use client';
 
-import { motion, BezierDefinition } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
+
+// --- BOUTIQUE IMPORTS ---
+import { ANIMATION, LAYOUT } from '@/lib/constants';
 
 export default function HomeGallery() {
   const onceConfig = { once: true, amount: 0.2 };
 
-  // 1. SYNCED CONSTANTS: The 700ms Master Pace
-  const boutiqueEase: BezierDefinition = [0.23, 1, 0.32, 1];
-  const themeTransition = "transition-colors duration-700 ease-[var(--ease-boutique)] theme-sync";
-
   return (
-    <section className={`bg-[rgb(var(--bg-main))] pb-10 ${themeTransition}`}>
+    <section className={`bg-[rgb(var(--bg-main))] pb-10 ${ANIMATION.THEME_SYNC}`}>
       
       {/* 1. THE CINEMATIC BLEED */}
       <div className="relative h-[70vh] w-full mb-24 md:mb-32 overflow-hidden">
@@ -19,8 +18,10 @@ export default function HomeGallery() {
           initial={{ scale: 1.1 }}
           whileInView={{ scale: 1 }}
           viewport={onceConfig} 
-          /* Duration kept at 1.5s for the cinematic zoom, but easing matched */
-          transition={{ duration: 1.5, ease: boutiqueEase }}
+          /* We use a longer duration (1.5s) for the cinematic zoom, 
+             but we use the ANIMATION.EASE to keep the "feeling" consistent.
+          */
+          transition={{ duration: 1.5, ease: ANIMATION.EASE }}
           className="relative h-full w-full"
         >
           <Image 
@@ -28,24 +29,25 @@ export default function HomeGallery() {
             alt="Cinematic Scale" 
             fill 
             priority 
-            className="object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-[var(--ease-boutique)]"
+            className={`object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-[var(--ease-boutique)]`}
           />
         </motion.div>
-        {/* Text synced to 700ms theme fade */}
-        <div className={`absolute bottom-12 left-12 text-[rgb(var(--bg-main))] uppercase text-[9px] tracking-[0.6em] z-10 ${themeTransition}`}>
+        
+        {/* Label synced to the 700ms Master Clock */}
+        <div className={`absolute bottom-12 left-12 text-[rgb(var(--bg-main))] uppercase text-[9px] tracking-[0.6em] z-10 ${ANIMATION.THEME_SYNC}`}>
           Scale // 001 — Full Bleed
         </div>
       </div>
 
       {/* 2. THE OFFSET DUET */}
-      <div className="max-w-[1400px] mx-auto px-8 md:px-16 flex flex-col md:flex-row items-center mb-32">
+      <div className={`max-w-[${LAYOUT.MAX_WIDTH}] mx-auto ${LAYOUT.SAFE_PADDING} flex flex-col md:flex-row items-center mb-32`}>
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={onceConfig} 
-          /* Duration updated to 0.7 to match global sync */
-          transition={{ duration: 0.7, ease: boutiqueEase }}
-          className={`w-full md:w-1/2 aspect-[4/5] relative bg-brand-charcoal/5 ${themeTransition}`}
+          /* Master Sync: 0.7s duration */
+          transition={{ duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
+          className={`w-full md:w-1/2 aspect-[4/5] relative bg-brand-charcoal/5 ${ANIMATION.THEME_SYNC}`}
         >
           <Image 
             src="/images/image22.jpeg" 
@@ -60,13 +62,12 @@ export default function HomeGallery() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={onceConfig}
-            /* Transition updated to 0.7 */
-            transition={{ delay: 0.2, duration: 0.7, ease: boutiqueEase }}
+            transition={{ delay: 0.2, duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
           >
-            <p className={`text-[10px] uppercase tracking-[0.4em] text-brand-charcoal/30 font-bold mb-4 ${themeTransition}`}>
+            <p className={`text-[10px] uppercase tracking-[0.4em] text-brand-charcoal/30 font-bold mb-4 ${ANIMATION.THEME_SYNC}`}>
                 Observation 042
             </p>
-            <p className={`font-serif italic text-xl text-brand-charcoal/60 max-w-xs leading-relaxed ${themeTransition}`}>
+            <p className={`font-serif italic text-xl text-brand-charcoal/60 max-w-xs leading-relaxed ${ANIMATION.THEME_SYNC}`}>
               "The beauty of the fragment is that it suggests the whole without revealing it."
             </p>
           </motion.div>
@@ -79,8 +80,8 @@ export default function HomeGallery() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={onceConfig} 
-          transition={{ duration: 0.7, ease: boutiqueEase }}
-          className={`w-full max-w-md aspect-square relative shadow-2xl mb-8 ${themeTransition}`}
+          transition={{ duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
+          className={`w-full max-w-md aspect-square relative shadow-2xl mb-8 ${ANIMATION.THEME_SYNC}`}
         >
           <Image 
             src="/images/image16.jpeg" 
@@ -89,13 +90,14 @@ export default function HomeGallery() {
             className="object-cover grayscale"
           />
         </motion.div>
-        {/* Decorative line synced to 700ms */}
+        
+        {/* Decorative architectural line */}
         <motion.div 
           initial={{ height: 0 }}
           whileInView={{ height: 64 }}
           viewport={onceConfig}
-          transition={{ duration: 0.7, ease: boutiqueEase }}
-          className={`w-[1px] bg-brand-accent/30 ${themeTransition}`} 
+          transition={{ duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
+          className={`w-[1px] bg-brand-accent/30 ${ANIMATION.THEME_SYNC}`} 
         />
       </div>
 

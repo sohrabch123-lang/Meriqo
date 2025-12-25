@@ -4,18 +4,16 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { BezierDefinition } from 'framer-motion';
 import { useTheme } from 'next-themes';
+
+// --- BOUTIQUE IMPORTS ---
+import { ANIMATION, LAYOUT, BRAND } from '@/lib/constants';
 
 export default function Navbar() {
   const pathname = usePathname() || '';
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  // 1. SYNCED CONSTANTS: Using the 700ms Master Clock to match GalleryLayout and Globals.css
-  const boutiqueEase: BezierDefinition = [0.23, 1, 0.32, 1];
-  const themeSync = "transition-colors duration-700 ease-[var(--ease-boutique)]";
 
   useEffect(() => { setMounted(true); }, []);
   useEffect(() => { setIsOpen(false); }, [pathname]);
@@ -31,27 +29,28 @@ export default function Navbar() {
     { name: 'About', href: '/about' },
   ];
 
-  if (!mounted) return <header className="h-24" />;
+  // Using the LAYOUT constant to reserve the correct amount of space during SSR
+  if (!mounted) return <header style={{ height: LAYOUT.NAV_HEIGHT }} />;
 
   const isDark = theme === 'dark';
 
   return (
     <>
       <header 
-        /* 2. HEADER SYNC: backdrop-blur and border-color now transition on the same 700ms clock */
-        className={`sticky top-0 z-[100] w-full border-b border-brand-charcoal/10 backdrop-blur-md ${themeSync}`}
+        className={`sticky top-0 z-[100] w-full border-b border-brand-charcoal/10 backdrop-blur-md ${ANIMATION.THEME_SYNC}`}
         style={{ 
           backgroundColor: 'rgb(var(--bg-main) / 0.85)', 
+          height: LAYOUT.NAV_HEIGHT, // Using our master constant
           isolation: 'isolate' 
         }}
       >
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="flex justify-between items-center h-24">
+        <div className={`max-w-[${LAYOUT.MAX_WIDTH}] mx-auto ${LAYOUT.SAFE_PADDING} h-full`}>
+          <div className="flex justify-between items-center h-full">
             
-            {/* LOGO: Cleaned up to inherit global text transition */}
+            {/* LOGO: Pulling from BRAND constant */}
             <Link href="/" className="z-[110] outline-none group">
-              <span className={`font-serif italic tracking-[0.2em] text-2xl text-brand-charcoal ${themeSync}`}>
-                Saldana
+              <span className={`font-serif italic tracking-[0.2em] text-2xl text-brand-charcoal ${ANIMATION.THEME_SYNC}`}>
+                {BRAND.NAME}
               </span>
             </Link>
 
@@ -65,8 +64,7 @@ export default function Navbar() {
                       <li key={link.name} className="relative flex flex-col items-center">
                         <Link 
                           href={link.href} 
-                          /* 3. LINK SYNC: duration set to 700 to match background fade */
-                          className={`text-[10px] uppercase transition-all duration-700 ease-[var(--ease-boutique)]
+                          className={`text-[10px] uppercase transition-all ${ANIMATION.THEME_SYNC}
                             ${active 
                               ? 'text-brand-charcoal font-bold' 
                               : 'text-brand-charcoal/40 hover:text-brand-charcoal'}
@@ -82,10 +80,10 @@ export default function Navbar() {
               </nav>
 
               <div className="flex items-center gap-4">
-                {/* THEME TOGGLE: Matches the 700ms timing exactly */}
+                {/* THEME TOGGLE */}
                 <button 
                   onClick={() => setTheme(isDark ? 'light' : 'dark')}
-                  className={`relative h-10 w-10 flex items-center justify-center rounded-full border border-brand-charcoal/10 hover:border-brand-charcoal text-brand-charcoal transition-all duration-700 ease-[var(--ease-boutique)] z-[110]`}
+                  className={`relative h-10 w-10 flex items-center justify-center rounded-full border border-brand-charcoal/10 hover:border-brand-charcoal text-brand-charcoal ${ANIMATION.THEME_SYNC} z-[110]`}
                 >
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
@@ -93,7 +91,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, rotate: -20, scale: 0.8 }}
                       animate={{ opacity: 1, rotate: 0, scale: 1 }}
                       exit={{ opacity: 0, rotate: 20, scale: 0.8 }}
-                      transition={{ duration: 0.7, ease: boutiqueEase }}
+                      transition={{ duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
                     >
                       {isDark ? (
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2m-18.78 7.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
@@ -111,13 +109,13 @@ export default function Navbar() {
                 >
                   <motion.span 
                     animate={isOpen ? { rotate: 45, y: 4.5 } : { rotate: 0, y: 0 }}
-                    transition={{ duration: 0.7, ease: boutiqueEase }}
-                    className={`w-6 h-[1px] bg-brand-charcoal ${themeSync}`}
+                    transition={{ duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
+                    className={`w-6 h-[1px] bg-brand-charcoal ${ANIMATION.THEME_SYNC}`}
                   />
                   <motion.span 
                     animate={isOpen ? { rotate: -45, y: -4.5 } : { rotate: 0, y: 0 }}
-                    transition={{ duration: 0.7, ease: boutiqueEase }}
-                    className={`w-6 h-[1px] bg-brand-charcoal ${themeSync}`}
+                    transition={{ duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
+                    className={`w-6 h-[1px] bg-brand-charcoal ${ANIMATION.THEME_SYNC}`}
                   />
                 </button>
               </div>
@@ -133,7 +131,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.7, ease: boutiqueEase }}
+            transition={{ duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
             className="fixed inset-0 z-[90] bg-[rgb(var(--bg-main))] flex flex-col items-center justify-center"
           >
             <nav className="flex flex-col items-center gap-10">
@@ -143,11 +141,11 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  transition={{ delay: i * 0.05, duration: 0.7, ease: boutiqueEase }}
+                  transition={{ delay: i * 0.05, duration: ANIMATION.DURATION, ease: ANIMATION.EASE }}
                 >
                   <Link 
                     href={link.href} 
-                    className={`text-4xl font-serif italic tracking-widest transition-colors duration-700
+                    className={`text-4xl font-serif italic tracking-widest transition-colors ${ANIMATION.THEME_SYNC}
                       ${pathname === link.href ? 'text-brand-charcoal' : 'text-brand-charcoal/30'}
                     `}
                   >

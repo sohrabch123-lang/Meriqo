@@ -1,5 +1,8 @@
 'use client';
-import { motion, BezierDefinition } from 'framer-motion';
+
+import { motion } from 'framer-motion';
+// --- BOUTIQUE IMPORTS ---
+import { ANIMATION } from '@/lib/constants';
 
 interface RevealProps {
   children: React.ReactNode;
@@ -12,14 +15,12 @@ interface RevealProps {
 export default function Reveal({ 
   children, 
   delay = 0, 
-  duration = 0.9, 
+  // We default to our Master Clock duration (0.7)
+  duration = ANIMATION.DURATION, 
   y = 15, 
   instant = false 
 }: RevealProps) {
   
-  // Leica smooth curve typed for TS safety
-  const boutiqueEase: BezierDefinition = [0.16, 1, 0.3, 1];
-
   return (
     <motion.div
       initial={instant ? false : { opacity: 0, y: y }}
@@ -28,13 +29,16 @@ export default function Reveal({
       transition={{ 
         duration: duration, 
         delay: delay, 
-        ease: boutiqueEase,
+        // Using the central ease for consistent 'heavy paper' motion
+        ease: ANIMATION.EASE,
         // CRITICAL: This prevents the 'transition-all' from globals.css 
         // from trying to animate the motion properties.
         layout: { duration: 0 } 
       }}
-      // We force 'will-change' to ensure the theme-sync (colors) 
-      // doesn't slow down the reveal (transform/opacity)
+      /* 2025 Performance Tip: 
+         willChange tells the browser's GPU to keep this layer ready,
+         preventing stuttering during complex scrolls.
+      */
       style={{ willChange: "opacity, transform" }}
     >
       {children}
