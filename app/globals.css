@@ -4,7 +4,6 @@
 
 @layer base {
   :root {
-    /* Pure CSS Variables - No hex codes in the layers */
     --bg-main: 251 250 245; 
     --brand-charcoal: 18 18 18;
     --brand-accent: 165 155 145; 
@@ -16,36 +15,39 @@
   }
 
   .dark {
-    /* Using !important here to override any local theme-light defaults */
-    --bg-main: 22 22 22 !important; 
-    --brand-charcoal: 215 210 205 !important;
-    --bg-card: 32 32 30 !important;
-    --accent-soft: 42 42 40 !important;
-    --text-muted: 130 130 125 !important;
-    --heritage: 22 22 22 !important;
+    --bg-main: 22 22 22; 
+    --brand-charcoal: 215 210 205;
+    --bg-card: 32 32 30;
+    --accent-soft: 42 42 40;
+    --text-muted: 130 130 125;
+    --heritage: 22 22 22;
   }
 
   html, body {
     background-color: rgb(var(--bg-main));
     color: rgb(var(--brand-charcoal));
     
-    /* THE MASTER CLOCK: Applied to the root for absolute sync */
-    transition-property: background-color, color, border-color, text-decoration-color;
-    transition-duration: 700ms;
-    transition-timing-function: var(--ease-boutique);
+    /* 1. LIMIT TRANSITIONS: We only transition the background on the body. 
+       Transitioning 'all' or 'color' on the root is very expensive. */
+    transition: background-color 700ms var(--ease-boutique);
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeSpeed;
+    text-rendering: optimizeLegibility; /* Changed from optimizeSpeed for serif clarity */
     overflow-x: hidden;
+    
+    /* Forces the browser to keep the background on the GPU */
+    will-change: background-color;
   }
 
-  /* Universal Border Sync: Ensuring all borders fade with the theme */
-  * {
+  /* 2. TARGETED BORDERS: Instead of '*', we target specific elements 
+     to save thousands of calculations per frame. */
+  div, section, header, footer, nav {
     border-color: rgb(var(--brand-charcoal) / 0.1);
+    transition: border-color 700ms var(--ease-boutique);
   }
 
-  /* FILM GRAIN - Keeps the texture consistent across theme shifts */
+  /* FILM GRAIN - Performance Optimized */
   body::before {
     content: "";
     position: fixed;
@@ -54,32 +56,41 @@
     z-index: 99;
     opacity: 0.008; 
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    /* We don't transition the grain. It's too heavy for the GPU to fade SVG noise. */
   }
 
   .dark body::before { opacity: 0.004; }
-
-  .sticky-nav {
-    background-color: rgb(var(--bg-main) / 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgb(var(--brand-charcoal) / 0.05);
-    /* Nav specific transition to ensure it feels sticky but fluid */
-    transition: background-color 700ms var(--ease-boutique), 
-                border-color 700ms var(--ease-boutique);
-  }
 }
 
 @layer components {
   /**
    * THE THEME SYNC UTILITY
-   * Use this class on any section or div that has its own background color.
-   * It prevents the "weird" timing by ignoring layout/transform changes.
+   * High-performance selective syncing.
    */
   .theme-sync {
-    transition-property: background-color, color, border-color, opacity, fill, stroke;
+    /* We specify properties. Never use 'all'. */
+    transition-property: background-color, color, border-color, opacity;
     transition-duration: 700ms;
     transition-timing-function: var(--ease-boutique);
-    /* Forces GPU for smoother color interpolation */
-    will-change: background-color, color;
+    /* This prevents the transition from conflicting with Framer Motion transforms */
+    transition-behavior: allow-discrete; 
+  }
+
+  /* 3. TEXT-ONLY TRANSITION: Apply this to your h1, h3, and p tags 
+     in the Gallery for snappiness. */
+  .text-sync {
+    transition: color 700ms var(--ease-boutique);
+    will-change: color;
+  }
+}
+
+/* 4. MOTION REDUCTION: Respects users who prefer less movement, 
+   also helps performance on low-end devices. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

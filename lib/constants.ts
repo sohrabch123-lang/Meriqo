@@ -1,19 +1,28 @@
 import { BezierDefinition } from 'framer-motion';
 
+// 1. Define the tuple explicitly to satisfy the 4-element requirement
+const BOUTIQUE_BEZIER: [number, number, number, number] = [0.23, 1, 0.32, 1];
+
 export const ANIMATION = {
   DURATION: 0.7,
   DURATION_MS: 700,
-  EASE: [0.23, 1, 0.32, 1] as BezierDefinition,
+  
+  // Method A: Using the explicit tuple (Cleanest)
+  EASE: BOUTIQUE_BEZIER as BezierDefinition,
+  
+  // Method B: The "Unknown" escape hatch (If you prefer inline)
+  // EASE: [0.23, 1, 0.32, 1] as unknown as BezierDefinition,
+
+  EASE_ARRAY: BOUTIQUE_BEZIER,
   THEME_SYNC: "transition-all duration-700 ease-[var(--ease-boutique)] theme-sync",
 };
 
 export const LAYOUT = {
   NAV_HEIGHT: "80px", 
   SUB_NAV_HEIGHT: "80px", 
-  // Your preferred wide layout
   MAX_WIDTH: "1400px", 
   SAFE_PADDING: "px-6 lg:px-12",
-  // Ensures content starts exactly after the Nav
+  GUTTER: "gap-y-24 md:gap-y-40",
   NAV_SPACER: "pt-[80px]", 
 };
 

@@ -15,7 +15,6 @@ interface RevealProps {
 export default function Reveal({ 
   children, 
   delay = 0, 
-  // We default to our Master Clock duration (0.7)
   duration = ANIMATION.DURATION, 
   y = 15, 
   instant = false 
@@ -23,23 +22,28 @@ export default function Reveal({
   
   return (
     <motion.div
+      // instant: Useful for detail pages where we want text ready immediately
       initial={instant ? false : { opacity: 0, y: y }}
       whileInView={{ opacity: 1, y: 0 }}
+      // margin -10%: Ensures the element is slightly into the viewport 
+      // before it 'wakes up', preventing the user from seeing half-loaded states.
       viewport={{ once: true, margin: "-10%" }}
       transition={{ 
         duration: duration, 
         delay: delay, 
-        // Using the central ease for consistent 'heavy paper' motion
         ease: ANIMATION.EASE,
-        // CRITICAL: This prevents the 'transition-all' from globals.css 
-        // from trying to animate the motion properties.
-        layout: { duration: 0 } 
+        // layout: { duration: 0 } is great, but we also use 'type: tween' 
+        // to prevent spring physics from eating CPU during theme toggles.
+        type: "tween" 
       }}
-      /* 2025 Performance Tip: 
-         willChange tells the browser's GPU to keep this layer ready,
-         preventing stuttering during complex scrolls.
+      /* PERFORMANCE: will-change is excellent, but we add 
+        transform-gpu logic here via style to ensure it stays on its own 
+        compositor layer during the theme's 'colorSync' phase.
       */
-      style={{ willChange: "opacity, transform" }}
+      style={{ 
+        willChange: "opacity, transform",
+        transform: "translateZ(0)" 
+      }}
     >
       {children}
     </motion.div>
